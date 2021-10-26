@@ -1,0 +1,9 @@
+query GetMovieHeadersQuery {
+  movies {
+    id
+    title
+    posterPath
+    popularity
+    runtime
+  }
+}

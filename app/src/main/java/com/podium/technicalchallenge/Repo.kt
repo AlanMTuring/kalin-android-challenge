@@ -1,7 +1,7 @@
 package com.podium.technicalchallenge
 
 import com.apollographql.apollo.coroutines.await
-
+import com.podium.technicalchallenge.ui.dashboard.MovieHeader
 
 sealed class Result<out R> {
     data class Success<out T>(val data: T) : Result<T>()
@@ -10,13 +10,26 @@ sealed class Result<out R> {
 
 class Repo {
 
-    suspend fun getMovies(): Result<GetMoviesQuery.Data?> {
-        val response = ApiClient.getInstance().movieClient.query(GetMoviesQuery()).await()
-        return if (response.data != null) {
-            Result.Success(response.data)
-        } else {
-            Result.Error(java.lang.Exception())
+    suspend fun getMovieHeaders(): List<MovieHeader> {
+        val response = ApiClient.getInstance().movieClient.query(GetMovieHeadersQuery()).await()
+
+        var movieList: List<MovieHeader>? = null
+        if (response.data?.movies != null) {
+            movieList = response.data?.movies?.mapNotNull { movie ->
+                if (movie == null) {
+                    null
+                } else {
+                    MovieHeader(
+                        movie.id,
+                        movie.title,
+                        movie.runtime,
+                        movie.posterPath
+                    )
+                }
+            }
         }
+
+        return movieList ?: throw Exception("Error getting movie headers from GraphQL")
     }
 
     companion object {
