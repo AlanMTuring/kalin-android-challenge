@@ -1,7 +1,10 @@
 package com.podium.technicalchallenge.ui.dashboard
 
+import android.os.Bundle
 import androidx.navigation.NavController
+import com.podium.technicalchallenge.R
 import com.podium.technicalchallenge.common.MovieEvent
+import com.podium.technicalchallenge.ui.moviedetail.MovieDetailFragment
 import javax.inject.Inject
 
 
@@ -11,8 +14,8 @@ class MovieListFragmentEventFactory @Inject constructor() {
 
 class OnMovieClickedEvent(private val movieId: Int): MovieEvent<MovieListFragment>() {
     override fun doExecute(fragment: MovieListFragment, navController: NavController) {
-        //todo create the bundle
-        //todo navigate to the fragment
+        val bundle = Bundle()
+        bundle.putInt(MovieDetailFragment.MOVIE_ID_KEY, movieId)
+        navController.navigate(R.id.action_navigation_dashboard_to_movieDetailFragment, bundle)
     }
-
 }

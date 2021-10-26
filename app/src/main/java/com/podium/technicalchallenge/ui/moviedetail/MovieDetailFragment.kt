@@ -12,6 +12,10 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MovieDetailFragment : Fragment() {
 
+    companion object {
+        const val MOVIE_ID_KEY = "arg:movieId"
+    }
+
     private val viewModel: MovieDetailFragmentViewModel by activityViewModels()
     private lateinit var binding: FragmentMovieDetailBinding
 
@@ -23,10 +27,11 @@ class MovieDetailFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        viewModel.loadMovieDetail()
+        val movieId = arguments?.getInt(MOVIE_ID_KEY)
+        viewModel.loadMovieDetail(movieId!!)
 
         viewModel.observableModel.observe(this) { model ->
-            binding.model = MovieDetailFragmentBindingModel(model.isLoading, model.isError, model.movieDetailDto?.title ?: "")
+            binding.model = MovieDetailFragmentBindingModel(model.isLoading, model.isError, model.movieDetail)
         }
     }
 
@@ -34,4 +39,7 @@ class MovieDetailFragment : Fragment() {
 
 data class MovieDetailFragmentBindingModel(val isLoading: Boolean,
                                            val isError: Boolean,
-                                           val movieTitle: String)
+                                           private val movieDetail: MovieDetailModel?) {
+    val title: String = movieDetail?.header?.id.toString()
+
+}
