@@ -26,6 +26,7 @@ class MovieFragmentViewModel @Inject constructor(private val modelFactory: Movie
             Log.d(TAG, "movies= $headers")
         } catch (e: Exception) {
             //update UI
+            liveModel.value = modelFactory.updateModelWithError(latestModel)
             Log.d(TAG, "error getting movie headers")
         }
     }

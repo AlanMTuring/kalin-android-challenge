@@ -30,5 +30,15 @@ class MovieListFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         viewModel.getMovies()
+
+        viewModel.observableModel.observe(this, { model ->
+            binding.model = MovieListFragmentBindingModel(model.isLoading, model.isError, model.movieList)
+        })
     }
+}
+
+data class MovieListFragmentBindingModel(val isLoading: Boolean,
+                                         val isError: Boolean,
+                                         val movieList: List<MovieHeaderModel>) {
+    val showContent = !isLoading && !isError
 }

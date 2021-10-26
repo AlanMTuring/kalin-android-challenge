@@ -14,5 +14,6 @@ data class MovieHeaderModel(val id: Int,
 
 class MovieFragmentModelFactory @Inject constructor() {
     fun createLoadingModel() = MovieFragmentModel(isLoading = true, isError = false, movieList = listOf())
-    fun updateModelWithMovieHeaders(latestModel: MovieFragmentModel, movies: List<MovieHeaderModel>) = latestModel.copy(movieList = movies, isLoading = false)
+    fun updateModelWithMovieHeaders(previousModel: MovieFragmentModel, movies: List<MovieHeaderModel>) = previousModel.copy(movieList = movies, isLoading = false)
+    fun updateModelWithError(previousModel: MovieFragmentModel)  = previousModel.copy(isError = true, isLoading = false)
 }
