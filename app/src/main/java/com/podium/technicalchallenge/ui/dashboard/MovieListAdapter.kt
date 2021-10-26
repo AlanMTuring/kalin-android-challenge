@@ -1,5 +1,6 @@
 package com.podium.technicalchallenge.ui.dashboard
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
@@ -12,6 +13,7 @@ import javax.inject.Inject
 class MovieListAdapter @Inject constructor(private val movieHeaderBindingModelFactory: MovieHeaderBindingModelFactory) : RecyclerView.Adapter<MovieViewHolder>() {
 
     private val asyncDiffer: AsyncListDiffer<MovieHeaderModel> = AsyncListDiffer(this, MovieHeaderModelDiffUtilCallback())
+    lateinit var movieClickListener: (Int) -> Unit
 
     fun update(movies: List<MovieHeaderModel>) {
         asyncDiffer.submitList(movies)
@@ -21,7 +23,16 @@ class MovieListAdapter @Inject constructor(private val movieHeaderBindingModelFa
         val inflater = LayoutInflater.from(parent.context)
         val binding = ItemMovieCardBinding.inflate(inflater, parent, false)
 
-        return MovieViewHolder(binding, movieHeaderBindingModelFactory)
+        val viewHolder = MovieViewHolder(binding, movieHeaderBindingModelFactory)
+        binding.root.setOnClickListener {
+            val adapterPosition = viewHolder.bindingAdapterPosition
+            if (adapterPosition != RecyclerView.NO_POSITION) {
+                val movieId = asyncDiffer.currentList[adapterPosition].id
+                movieClickListener(movieId)
+            }
+        }
+
+        return viewHolder
     }
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int, payloads: MutableList<Any>) {
@@ -66,6 +77,7 @@ class MovieListAdapter @Inject constructor(private val movieHeaderBindingModelFa
 }
 
 class MovieViewHolder(private val binding: ItemMovieCardBinding, private val movieHeaderBindingModelFactory: MovieHeaderBindingModelFactory) : RecyclerView.ViewHolder(binding.root) {
+
     fun bind(movie: MovieHeaderModel) {
         binding.model = movieHeaderBindingModelFactory.create(movie)
     }

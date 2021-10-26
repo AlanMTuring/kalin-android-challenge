@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.podium.technicalchallenge.MovieFragmentViewModel
 import com.podium.technicalchallenge.databinding.FragmentDashboardBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,6 +31,7 @@ class MovieListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.moviesRecycler.layoutManager = LinearLayoutManager(view.context)
+        movieListAdapter.movieClickListener = viewModel::onMovieClicked
         binding.moviesRecycler.adapter = movieListAdapter
     }
 
@@ -40,6 +43,18 @@ class MovieListFragment : Fragment() {
             binding.model = MovieListFragmentBindingModel(model.isLoading, model.isError)
             movieListAdapter.update(model.movieList)
         })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.observableEvents.observe(this, { event ->
+            event.execute(this, findNavController())
+        })
+    }
+
+    override fun onPause() {
+        viewModel.observableEvents.removeObservers(this)
+        super.onPause()
     }
 }
 
