@@ -14,9 +14,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="aff71318-634e-424e-a9c5-046b3741cc98" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/podium/technicalchallenge/ui/dashboard/MovieHeaderBindingModel.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/podium/technicalchallenge/ui/dashboard/MovieListAdapter.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_movie_card.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/podium/technicalchallenge/common/ImageAdapter.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.0.2/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.0.2/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.0.2/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.0.2/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.0.2/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.0.2/fileHashes/fileHashes.bin" afterDir="false" />
@@ -28,14 +26,16 @@
       <change beforePath="$PROJECT_DIR$/.gradle/7.0.2/javaCompile/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.0.2/javaCompile/taskHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/checksums/md5-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/md5-checksums.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/graphql/com/podium/technicalchallenge/demo/GetMovieHeadersQuery.graphql" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/graphql/com/podium/technicalchallenge/demo/GetMovieHeadersQuery.graphql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/podium/technicalchallenge/Repo.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/podium/technicalchallenge/Repo.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/podium/technicalchallenge/ui/dashboard/MovieFragmentModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/podium/technicalchallenge/ui/dashboard/MovieFragmentModel.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/podium/technicalchallenge/ui/dashboard/MovieListFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/podium/technicalchallenge/ui/dashboard/MovieListFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/podium/technicalchallenge/ui/dashboard/MovieHeaderBindingModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/podium/technicalchallenge/ui/dashboard/MovieHeaderBindingModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/podium/technicalchallenge/ui/dashboard/MovieListAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/podium/technicalchallenge/ui/dashboard/MovieListAdapter.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_dashboard.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_dashboard.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/item_movie_card.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_movie_card.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,9 +79,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Kotlin Class" />
         <option value="layoutResourceFile" />
         <option value="Kotlin File" />
+        <option value="Kotlin Class" />
       </list>
     </option>
   </component>

@@ -9,7 +9,7 @@ import javax.inject.Inject
 data class MovieHeaderBindingModel(val title: String,
                                    val releaseDate: String,
                                    val duration: String,
-                                   val imageUrl: String)
+                                   val imageUrl: String?)
 
 @Reusable
 class MovieHeaderBindingModelFactory @Inject constructor() {
@@ -17,7 +17,6 @@ class MovieHeaderBindingModelFactory @Inject constructor() {
         val date = LocalDate.parse(movie.releaseDate)
         val format = DateTimeFormatter.ofPattern("MMM d, yyyy")
         val formattedDate = date.format(format)
-        val imageUrl = movie.imageUrl ?: ""
-        return MovieHeaderBindingModel(movie.title, formattedDate, "${movie.runtime}m", imageUrl)
+        return MovieHeaderBindingModel(movie.title, formattedDate, "${movie.runtime}m", movie.imageUrl)
     }
 }
