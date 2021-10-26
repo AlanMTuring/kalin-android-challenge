@@ -14,23 +14,19 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.textfield.TextInputLayout
 import com.podium.technicalchallenge.DemoViewModel
 import com.podium.technicalchallenge.databinding.FragmentDashboardBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DashboardFragment : Fragment() {
 
     private val viewModel: DemoViewModel by activityViewModels()
-    private var _binding: FragmentDashboardBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var binding: FragmentDashboardBinding
 
     private lateinit var tvTitle: TextView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        _binding = FragmentDashboardBinding.inflate(inflater)
+        binding = FragmentDashboardBinding.inflate(inflater)
         return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
