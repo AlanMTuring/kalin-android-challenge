@@ -39,10 +39,10 @@ class MovieListFragment : Fragment() {
         super.onStart()
         viewModel.getMovies()
 
-        viewModel.observableModel.observe(this, { model ->
+        viewModel.observableModel.observe(this) { model ->
             binding.model = MovieListFragmentBindingModel(model.isLoading, model.isError)
             movieListAdapter.update(model.movieList)
-        })
+        }
     }
 
     override fun onResume() {

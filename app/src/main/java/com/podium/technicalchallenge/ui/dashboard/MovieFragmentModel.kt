@@ -1,8 +1,6 @@
 package com.podium.technicalchallenge.ui.dashboard
 
-import java.util.*
 import javax.inject.Inject
-
 
 data class MovieFragmentModel(val isLoading: Boolean,
                               val isError: Boolean,
