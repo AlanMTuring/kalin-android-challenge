@@ -2,6 +2,7 @@ package com.podium.technicalchallenge.ui.dashboard
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.podium.technicalchallenge.databinding.ItemMovieCardBinding
@@ -10,11 +11,10 @@ import javax.inject.Inject
 
 class MovieListAdapter @Inject constructor(private val movieHeaderBindingModelFactory: MovieHeaderBindingModelFactory) : RecyclerView.Adapter<MovieViewHolder>() {
 
-    private val movieList: MutableList<MovieHeaderModel> = mutableListOf()
+    private val asyncDiffer: AsyncListDiffer<MovieHeaderModel> = AsyncListDiffer(this, MovieHeaderModelDiffUtilCallback())
 
     fun update(movies: List<MovieHeaderModel>) {
-        movieList.clear()
-        movieList.addAll(movies)
+        asyncDiffer.submitList(movies)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
@@ -24,8 +24,35 @@ class MovieListAdapter @Inject constructor(private val movieHeaderBindingModelFa
         return MovieViewHolder(binding, movieHeaderBindingModelFactory)
     }
 
+    override fun onBindViewHolder(holder: MovieViewHolder, position: Int, payloads: MutableList<Any>) {
+        if (payloads.isEmpty()) {
+            onBindViewHolder(holder, position)
+            return
+        }
+
+        val payload = payloads[0] as? Map<*,*>
+        payload?.let { safePayload ->
+            if (safePayload.containsKey(MovieHeaderModelDiffUtilCallback.TITLE_KEY)) {
+                val title = safePayload[MovieHeaderModelDiffUtilCallback.TITLE_KEY] as String
+                holder.bindTitle(title)
+            }
+            if (safePayload.containsKey(MovieHeaderModelDiffUtilCallback.IMAGE_URL_KEY)) {
+                val imageUrl = safePayload[MovieHeaderModelDiffUtilCallback.IMAGE_URL_KEY] as String?
+                holder.bindImageUrl(imageUrl)
+            }
+            if (safePayload.containsKey(MovieHeaderModelDiffUtilCallback.RELEASE_DATE_KEY)) {
+                val releaseDate = safePayload[MovieHeaderModelDiffUtilCallback.RELEASE_DATE_KEY] as String
+                holder.bindReleaseDate(releaseDate)
+            }
+            if (safePayload.containsKey(MovieHeaderModelDiffUtilCallback.RUNTIME_KEY)) {
+                val runtime = safePayload[MovieHeaderModelDiffUtilCallback.RUNTIME_KEY] as Int
+                holder.bindRuntime(runtime)
+            }
+        }
+    }
+
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
-        holder.bind(movieList[position])
+        holder.bind(asyncDiffer.currentList[position])
     }
 
     override fun onViewRecycled(holder: MovieViewHolder) {
@@ -33,7 +60,7 @@ class MovieListAdapter @Inject constructor(private val movieHeaderBindingModelFa
     }
 
     override fun getItemCount(): Int {
-        return movieList.size
+        return asyncDiffer.currentList.size
     }
 
 }
@@ -46,5 +73,21 @@ class MovieViewHolder(private val binding: ItemMovieCardBinding, private val mov
     fun unbind() {
         Glide.with(binding.root).clear(binding.moviePoster)
         binding.moviePoster.setImageDrawable(null)
+    }
+
+    fun bindTitle(title: String) {
+        binding.model = binding.model?.copy(title = title)
+    }
+
+    fun bindImageUrl(imageUrl: String?) {
+        binding.model = binding.model?.copy(imageUrl = imageUrl)
+    }
+
+    fun bindReleaseDate(releaseDate: String) {
+        binding.model = binding.model?.copy(releaseDate = movieHeaderBindingModelFactory.formatDate(releaseDate))
+    }
+
+    fun bindRuntime(runtime: Int) {
+        binding.model = binding.model?.copy(duration = movieHeaderBindingModelFactory.formatDuration(runtime))
     }
 }

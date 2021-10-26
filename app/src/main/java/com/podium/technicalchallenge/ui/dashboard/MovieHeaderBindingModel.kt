@@ -14,9 +14,16 @@ data class MovieHeaderBindingModel(val title: String,
 @Reusable
 class MovieHeaderBindingModelFactory @Inject constructor() {
     fun create(movie: MovieHeaderModel): MovieHeaderBindingModel {
-        val date = LocalDate.parse(movie.releaseDate)
+        return MovieHeaderBindingModel(movie.title, formatDate(movie.releaseDate), formatDuration(movie.runtime), movie.imageUrl)
+    }
+
+    fun formatDate(releaseDate: String): String {
+        val date = LocalDate.parse(releaseDate)
         val format = DateTimeFormatter.ofPattern("MMM d, yyyy")
-        val formattedDate = date.format(format)
-        return MovieHeaderBindingModel(movie.title, formattedDate, "${movie.runtime}m", movie.imageUrl)
+        return date.format(format)
+    }
+
+    fun formatDuration(runtime: Int): String {
+        return "${runtime}m"
     }
 }
