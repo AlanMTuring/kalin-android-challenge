@@ -20,6 +20,8 @@ class Repo {
                         movie.id,
                         movie.title,
                         movie.runtime,
+                        movie.releaseDate,
+                        movie.popularity,
                         movie.posterPath
                     )
                 }

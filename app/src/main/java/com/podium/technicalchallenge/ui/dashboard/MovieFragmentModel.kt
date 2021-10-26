@@ -1,5 +1,6 @@
 package com.podium.technicalchallenge.ui.dashboard
 
+import java.util.*
 import javax.inject.Inject
 
 
@@ -8,9 +9,11 @@ data class MovieFragmentModel(val isLoading: Boolean,
                               val movieList: List<MovieHeaderModel>)
 
 data class MovieHeaderModel(val id: Int,
-                             val title: String,
-                             val runtime: Int,
-                             val imageUrl: String?)
+                            val title: String,
+                            val runtime: Int,
+                            val releaseDate: String,
+                            val popularity: Double,
+                            val imageUrl: String?)
 
 class MovieFragmentModelFactory @Inject constructor() {
     fun createLoadingModel() = MovieFragmentModel(isLoading = true, isError = false, movieList = listOf())
