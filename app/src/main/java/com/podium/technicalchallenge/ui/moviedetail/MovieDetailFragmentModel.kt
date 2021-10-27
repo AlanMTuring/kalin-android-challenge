@@ -14,11 +14,11 @@ data class MovieDetailModel(val header: MovieHeaderModel = MovieHeaderModel(),
                             val voteAverage: Double = 0.0,
                             val voteCount: Int = 0,
                             val genres: List<String> = listOf(),
-                            val cast: List<CastMember> = listOf(),
+                            val cast: List<CastMemberModel> = listOf(),
                             val director: DirectorModel = DirectorModel()
 )
 
-data class CastMember(val imageUrl: String?,
+data class CastMemberModel(val imageUrl: String?,
                       val name: String,
                       val character: String,
                       val order: Int)

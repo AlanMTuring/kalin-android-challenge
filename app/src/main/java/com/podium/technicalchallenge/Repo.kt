@@ -2,7 +2,7 @@ package com.podium.technicalchallenge
 
 import com.apollographql.apollo.coroutines.await
 import com.podium.technicalchallenge.ui.dashboard.MovieHeaderModel
-import com.podium.technicalchallenge.ui.moviedetail.CastMember
+import com.podium.technicalchallenge.ui.moviedetail.CastMemberModel
 import com.podium.technicalchallenge.ui.moviedetail.DirectorModel
 import com.podium.technicalchallenge.ui.moviedetail.MovieDetailModel
 import kotlinx.coroutines.Dispatchers
@@ -56,7 +56,7 @@ class Repo {
             movie.voteAverage,
             movie.voteCount,
             movie.genres,
-            movie.cast.map { CastMember(it.profilePath, it.name, it.character, it.order) },
+            movie.cast.map { CastMemberModel(it.profilePath, it.name, it.character, it.order) },
             DirectorModel(movie.director.id, movie.director.name)
         )
     }
