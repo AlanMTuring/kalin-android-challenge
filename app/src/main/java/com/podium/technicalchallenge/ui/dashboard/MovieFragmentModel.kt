@@ -6,12 +6,12 @@ data class MovieFragmentModel(val isLoading: Boolean,
                               val isError: Boolean,
                               val movieList: List<MovieHeaderModel>)
 
-data class MovieHeaderModel(val id: Int,
-                            val title: String,
-                            val runtime: Int,
-                            val releaseDate: String,
-                            val popularity: Double,
-                            val imageUrl: String?)
+data class MovieHeaderModel(val id: Int = 0,
+                            val title: String = "",
+                            val runtime: Int = 0,
+                            val releaseDate: String = "",
+                            val popularity: Double = 0.0,
+                            val imageUrl: String? = null)
 
 class MovieFragmentModelFactory @Inject constructor() {
     fun createLoadingModel() = MovieFragmentModel(isLoading = true, isError = false, movieList = listOf())

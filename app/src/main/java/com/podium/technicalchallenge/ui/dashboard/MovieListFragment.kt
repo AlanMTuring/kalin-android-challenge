@@ -8,8 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.podium.technicalchallenge.MovieFragmentViewModel
+import com.podium.technicalchallenge.MovieListFragmentViewModel
 import com.podium.technicalchallenge.databinding.FragmentDashboardBinding
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -17,7 +16,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MovieListFragment : Fragment() {
 
-    private val viewModel: MovieFragmentViewModel by activityViewModels()
+    private val viewModelList: MovieListFragmentViewModel by activityViewModels()
     private lateinit var binding: FragmentDashboardBinding
 
     @Inject
@@ -31,15 +30,15 @@ class MovieListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.moviesRecycler.layoutManager = LinearLayoutManager(view.context)
-        movieListAdapter.movieClickListener = viewModel::onMovieClicked
+        movieListAdapter.movieClickListener = viewModelList::onMovieClicked
         binding.moviesRecycler.adapter = movieListAdapter
     }
 
     override fun onStart() {
         super.onStart()
-        viewModel.getMovies()
+        viewModelList.getMovies()
 
-        viewModel.observableModel.observe(this) { model ->
+        viewModelList.observableModel.observe(this) { model ->
             binding.model = MovieListFragmentBindingModel(model.isLoading, model.isError)
             movieListAdapter.update(model.movieList)
         }
@@ -47,13 +46,13 @@ class MovieListFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.observableEvents.observe(this, { event ->
+        viewModelList.observableEvents.observe(this, { event ->
             event.execute(this, findNavController())
         })
     }
 
     override fun onPause() {
-        viewModel.observableEvents.removeObservers(this)
+        viewModelList.observableEvents.removeObservers(this)
         super.onPause()
     }
 }

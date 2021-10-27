@@ -3,7 +3,7 @@ package com.podium.technicalchallenge.ui.moviedetail
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.podium.technicalchallenge.ui.dashboard.MovieHeaderModel
+import com.podium.technicalchallenge.Repo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -16,8 +16,7 @@ class MovieDetailFragmentViewModel @Inject constructor(private val modelFactory:
         get() = liveModel.value!!
 
     fun loadMovieDetail(movieId: Int) {
-        liveModel.value = modelFactory.updateModelWithDetail(latestModel, MovieDetailModel(
-            MovieHeaderModel(movieId, "",12, "", 12.0, null), ""
-        ))
+        val detail = Repo.getInstance().getMovieDetail(movieId)
+        liveModel.value = modelFactory.updateModelWithDetail(latestModel, detail)
     }
 }

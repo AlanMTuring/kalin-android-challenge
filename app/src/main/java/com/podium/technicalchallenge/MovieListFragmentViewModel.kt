@@ -13,7 +13,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class MovieFragmentViewModel @Inject constructor(private val modelFactory: MovieFragmentModelFactory, private val movieListFragmentEventFactory: MovieListFragmentEventFactory) : ViewModel() {
+class MovieListFragmentViewModel @Inject constructor(private val modelFactory: MovieFragmentModelFactory, private val movieListFragmentEventFactory: MovieListFragmentEventFactory) : ViewModel() {
 
     private val liveModel: MutableLiveData<MovieFragmentModel> = MutableLiveData(modelFactory.createLoadingModel())
     val observableModel: LiveData<MovieFragmentModel> = liveModel

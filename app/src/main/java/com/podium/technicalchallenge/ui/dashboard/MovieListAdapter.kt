@@ -1,6 +1,5 @@
 package com.podium.technicalchallenge.ui.dashboard
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
@@ -96,10 +95,10 @@ class MovieViewHolder(private val binding: ItemMovieCardBinding, private val mov
     }
 
     fun bindReleaseDate(releaseDate: String) {
-        binding.model = binding.model?.copy(releaseDate = movieHeaderBindingModelFactory.formatDate(releaseDate))
+        binding.model = binding.model?.copy(formattedReleaseDate = movieHeaderBindingModelFactory.formatDate(releaseDate))
     }
 
     fun bindRuntime(runtime: Int) {
-        binding.model = binding.model?.copy(duration = movieHeaderBindingModelFactory.formatDuration(runtime))
+        binding.model = binding.model?.copy(formattedRuntime = movieHeaderBindingModelFactory.formatDuration(runtime))
     }
 }

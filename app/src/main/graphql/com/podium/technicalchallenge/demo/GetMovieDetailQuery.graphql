@@ -1,0 +1,27 @@
+query GetMovieDetailQuery($id:Int!) {
+  movie(id: $id) {
+    id
+    originalLanguage
+    originalTitle
+    overview
+    popularity
+    posterPath
+    releaseDate
+    voteAverage
+    voteCount
+    title
+    runtime
+    genres
+    cast {
+      profilePath
+      name
+      character
+      order
+    }
+    director {
+      id
+      name
+    }
+  }
+
+}

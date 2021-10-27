@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.podium.technicalchallenge.databinding.FragmentMovieDetailBinding
+import com.podium.technicalchallenge.ui.dashboard.MovieHeaderBindingModelFactory
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MovieDetailFragment : Fragment() {
@@ -18,6 +20,9 @@ class MovieDetailFragment : Fragment() {
 
     private val viewModel: MovieDetailFragmentViewModel by activityViewModels()
     private lateinit var binding: FragmentMovieDetailBinding
+
+    @Inject
+    lateinit var movieHeaderBindingModelFactory: MovieHeaderBindingModelFactory
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentMovieDetailBinding.inflate(inflater)
@@ -31,7 +36,7 @@ class MovieDetailFragment : Fragment() {
         viewModel.loadMovieDetail(movieId!!)
 
         viewModel.observableModel.observe(this) { model ->
-            binding.model = MovieDetailFragmentBindingModel(model.isLoading, model.isError, model.movieDetail)
+            binding.model = MovieDetailFragmentBindingModel(model.isLoading, model.isError, model.movieDetail, movieHeaderBindingModelFactory)
         }
     }
 
@@ -39,7 +44,13 @@ class MovieDetailFragment : Fragment() {
 
 data class MovieDetailFragmentBindingModel(val isLoading: Boolean,
                                            val isError: Boolean,
-                                           private val movieDetail: MovieDetailModel?) {
-    val title: String = movieDetail?.header?.id.toString()
+                                           private val movieDetail: MovieDetailModel,
+                                           private val movieHeaderBindingModelFactory: MovieHeaderBindingModelFactory) {
 
+    val movieHeader = movieHeaderBindingModelFactory.create(movieDetail.header)
+    val movieTitle = "${movieHeader.title} (${movieHeader.releaseDate.year})"
+    val movieMetadata = "${movieHeader.formattedReleaseDate} • ${movieHeader.formattedRuntime}"
+    val formattedRating = "Rated ${movieDetail.voteAverage}/10 (by ${movieDetail.voteCount} users)"
+    val formattedDirector = "Directed by: ${movieDetail.director.name}"
+    val overview = movieDetail.overview
 }
