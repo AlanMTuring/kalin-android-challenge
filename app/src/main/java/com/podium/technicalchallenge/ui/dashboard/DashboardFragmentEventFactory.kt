@@ -8,12 +8,12 @@ import com.podium.technicalchallenge.ui.moviedetail.MovieDetailFragment
 import javax.inject.Inject
 
 
-class MovieListFragmentEventFactory @Inject constructor() {
+class DashboardFragmentEventFactory @Inject constructor() {
     fun createOnMovieClickedEvent(movieId: Int) = OnMovieClickedEvent(movieId)
 }
 
-class OnMovieClickedEvent(private val movieId: Int): MovieEvent<MovieListFragment>() {
-    override fun doExecute(fragment: MovieListFragment, navController: NavController) {
+class OnMovieClickedEvent(private val movieId: Int): MovieEvent<DashboardFragment>() {
+    override fun doExecute(fragment: DashboardFragment, navController: NavController) {
         val bundle = Bundle()
         bundle.putInt(MovieDetailFragment.MOVIE_ID_KEY, movieId)
         navController.navigate(R.id.action_navigation_dashboard_to_movieDetailFragment, bundle)

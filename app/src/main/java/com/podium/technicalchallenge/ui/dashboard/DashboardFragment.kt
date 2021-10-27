@@ -13,9 +13,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MovieListFragment : Fragment() {
+class DashboardFragment : Fragment() {
 
-    private val viewModelList: MovieListFragmentViewModel by activityViewModels()
+    private val viewModel: DashboardFragmentViewModel by activityViewModels()
     private lateinit var binding: FragmentDashboardBinding
 
     @Inject
@@ -29,15 +29,15 @@ class MovieListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.moviesRecycler.layoutManager = LinearLayoutManager(view.context)
-        movieListAdapter.movieClickListener = viewModelList::onMovieClicked
+        movieListAdapter.movieClickListener = viewModel::onMovieClicked
         binding.moviesRecycler.adapter = movieListAdapter
     }
 
     override fun onStart() {
         super.onStart()
-        viewModelList.getMovies()
+        viewModel.getMovies()
 
-        viewModelList.observableModel.observe(this) { model ->
+        viewModel.observableModel.observe(this) { model ->
             binding.model = MovieListFragmentBindingModel(model.isLoading, model.isError)
             movieListAdapter.update(model.movieList)
         }
@@ -45,13 +45,13 @@ class MovieListFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        viewModelList.observableEvents.observe(this, { event ->
+        viewModel.observableEvents.observe(this, { event ->
             event.execute(this, findNavController())
         })
     }
 
     override fun onPause() {
-        viewModelList.observableEvents.removeObservers(this)
+        viewModel.observableEvents.removeObservers(this)
         super.onPause()
     }
 }
