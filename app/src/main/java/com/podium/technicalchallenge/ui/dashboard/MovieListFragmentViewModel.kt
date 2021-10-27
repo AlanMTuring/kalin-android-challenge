@@ -1,14 +1,10 @@
-package com.podium.technicalchallenge
+package com.podium.technicalchallenge.ui.dashboard
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.navigation.NavController
+import com.podium.technicalchallenge.Repo
 import com.podium.technicalchallenge.common.MovieEvent
-import com.podium.technicalchallenge.ui.dashboard.MovieFragmentModel
-import com.podium.technicalchallenge.ui.dashboard.MovieFragmentModelFactory
-import com.podium.technicalchallenge.ui.dashboard.MovieListFragment
-import com.podium.technicalchallenge.ui.dashboard.MovieListFragmentEventFactory
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
