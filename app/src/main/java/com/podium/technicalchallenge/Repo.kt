@@ -22,6 +22,29 @@ class Repo {
         return@runBlocking graphQlToDetailModel(gqlMovie)
     }
 
+    fun getTopFiveHeaders(): List<MovieHeaderModel> = runBlocking(Dispatchers.IO) {
+        val response = ApiClient.getInstance().movieClient.query(GetTopFiveHeadersQuery()).await()
+        val gqlMovieList = response.data?.movies ?: throw Exception("Error getting top five movie headers")
+        return@runBlocking gqlToHeaderList2(gqlMovieList)
+    }
+
+    //For sake of time, not looking into refactoring so methods can take both. First time working with graphQL, so i've chosen to do a little extra work fast instead of taking time to learn better queries
+    private fun gqlToHeaderList2(gqlMovieLIst: List<GetTopFiveHeadersQuery.Movie?>): List<MovieHeaderModel> {
+        return gqlMovieLIst.mapNotNull { movie ->
+            if (movie != null) {
+                MovieHeaderModel(
+                    movie.id,
+                    movie.title,
+                    movie.runtime,
+                    movie.releaseDate,
+                    movie.popularity,
+                    movie.posterPath
+                )
+            } else {
+                null
+            }
+        }
+    }
 
     private fun gqlToHeaderList(gqlMovieLIst: List<GetMovieHeadersQuery.Movie?>): List<MovieHeaderModel> {
         return gqlMovieLIst.mapNotNull { movie ->

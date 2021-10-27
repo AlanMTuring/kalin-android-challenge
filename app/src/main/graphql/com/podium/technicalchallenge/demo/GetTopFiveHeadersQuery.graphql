@@ -1,0 +1,10 @@
+query GetTopFiveHeadersQuery {
+    movies(orderBy: "popularity", sort: DESC, limit: 5) {
+        id
+        title
+        posterPath
+        popularity
+        runtime
+        releaseDate
+    }
+}

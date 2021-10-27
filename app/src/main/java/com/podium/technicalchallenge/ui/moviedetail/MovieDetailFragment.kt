@@ -25,7 +25,7 @@ class MovieDetailFragment : Fragment() {
     private lateinit var binding: FragmentMovieDetailBinding
 
     @Inject
-    lateinit var genreAdapter: GenreAdapter
+    lateinit var genreChipAdapter: GenreChipAdapter
 
     @Inject
     lateinit var castAdapter: CastAdapter
@@ -39,8 +39,8 @@ class MovieDetailFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        genreAdapter.genreClickListener = viewModel::onGenreChipClicked
-        binding.genreRecycler.adapter = genreAdapter
+        genreChipAdapter.genreClickListener = viewModel::onGenreChipClicked
+        binding.genreRecycler.adapter = genreChipAdapter
         binding.genreRecycler.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
         binding.castRecycler.adapter = castAdapter
         binding.castRecycler.layoutManager = LinearLayoutManager(context)
@@ -54,7 +54,7 @@ class MovieDetailFragment : Fragment() {
 
         viewModel.observableModel.observe(this) { model ->
             binding.model = MovieDetailFragmentBindingModel(model.isLoading, model.isError, model.movieDetail, movieHeaderBindingModelFactory)
-            genreAdapter.update(model.movieDetail.genres)
+            genreChipAdapter.update(model.movieDetail.genres)
             castAdapter.update(model.movieDetail.cast)
         }
     }

@@ -18,9 +18,6 @@ class DashboardFragment : Fragment() {
     private lateinit var binding: FragmentDashboardBinding
 
     @Inject
-    lateinit var movieListAdapter: MovieListAdapter
-
-    @Inject
     lateinit var viewPagerAdapter: DashboardFragmentViewPagerAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -32,27 +29,24 @@ class DashboardFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewPagerAdapter.movieClickListener = viewModel::onMovieClicked
+        viewPagerAdapter.genreClickListener = viewModel::onGenreClicked
         binding.viewPager.apply {
             adapter = viewPagerAdapter
             offscreenPageLimit = 2
             binding.tabLayout.setupWithViewPager(this)
         }
         binding.viewPager.currentItem = 1 //top 5
-
-
-
     }
 
     override fun onStart() {
         super.onStart()
-        viewModel.getMovies()
+        viewModel.fetchData()
 
         viewModel.observableModel.observe(this) { model ->
             binding.model = MovieListFragmentBindingModel(model.isLoading, model.isError)
-            movieListAdapter.update(model.movieList)
             viewPagerAdapter.updateBrowseAllList(model.movieList)
-            viewPagerAdapter.updateGenreList(model.movieList)
-            viewPagerAdapter.updateTopFiveList(model.movieList)
+            viewPagerAdapter.updateGenreList(listOf("NOICE", "TOIGHT", "IT'S WERKIN"))//todo pass in the right data
+            viewPagerAdapter.updateTopFiveList(model.topFiveList)
         }
     }
 
