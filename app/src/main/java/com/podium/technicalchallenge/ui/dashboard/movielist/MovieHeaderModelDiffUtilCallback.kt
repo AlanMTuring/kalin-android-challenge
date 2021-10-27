@@ -1,6 +1,7 @@
-package com.podium.technicalchallenge.ui.dashboard
+package com.podium.technicalchallenge.ui.dashboard.movielist
 
 import androidx.recyclerview.widget.DiffUtil
+import com.podium.technicalchallenge.ui.dashboard.MovieHeaderModel
 
 
 class MovieHeaderModelDiffUtilCallback : DiffUtil.ItemCallback<MovieHeaderModel>() {

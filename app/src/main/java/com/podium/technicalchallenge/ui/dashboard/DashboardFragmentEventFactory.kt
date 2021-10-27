@@ -16,6 +16,6 @@ class OnMovieClickedEvent(private val movieId: Int): MovieEvent<DashboardFragmen
     override fun doExecute(fragment: DashboardFragment, navController: NavController) {
         val bundle = Bundle()
         bundle.putInt(MovieDetailFragment.MOVIE_ID_KEY, movieId)
-        navController.navigate(R.id.action_navigation_dashboard_to_movieDetailFragment, bundle)
+        navController.navigate(R.id.action_dashboardFragment_to_movieDetailFragment, bundle)
     }
 }

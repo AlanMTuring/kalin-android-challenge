@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.podium.technicalchallenge.databinding.ItemMovieCardBinding
+import com.podium.technicalchallenge.ui.dashboard.movielist.MovieHeaderModelDiffUtilCallback
 import javax.inject.Inject
 
 

@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.podium.technicalchallenge.databinding.FragmentDashboardBinding
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -21,6 +20,9 @@ class DashboardFragment : Fragment() {
     @Inject
     lateinit var movieListAdapter: MovieListAdapter
 
+    @Inject
+    lateinit var viewPagerAdapter: DashboardFragmentViewPagerAdapter
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentDashboardBinding.inflate(inflater)
         return binding.root
@@ -28,9 +30,17 @@ class DashboardFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.moviesRecycler.layoutManager = LinearLayoutManager(view.context)
-        movieListAdapter.movieClickListener = viewModel::onMovieClicked
-        binding.moviesRecycler.adapter = movieListAdapter
+
+        viewPagerAdapter.movieClickListener = viewModel::onMovieClicked
+        binding.viewPager.apply {
+            adapter = viewPagerAdapter
+            offscreenPageLimit = 2
+            binding.tabLayout.setupWithViewPager(this)
+        }
+        binding.viewPager.currentItem = 1 //top 5
+
+
+
     }
 
     override fun onStart() {
@@ -40,6 +50,9 @@ class DashboardFragment : Fragment() {
         viewModel.observableModel.observe(this) { model ->
             binding.model = MovieListFragmentBindingModel(model.isLoading, model.isError)
             movieListAdapter.update(model.movieList)
+            viewPagerAdapter.updateBrowseAllList(model.movieList)
+            viewPagerAdapter.updateGenreList(model.movieList)
+            viewPagerAdapter.updateTopFiveList(model.movieList)
         }
     }
 
