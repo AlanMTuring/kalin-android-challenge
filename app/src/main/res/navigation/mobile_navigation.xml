@@ -17,7 +17,6 @@
         <action
             android:id="@+id/action_dashboardFragment_to_genreFragment"
             app:destination="@+id/genreFragment" />
-
     </fragment>
 
     <fragment
@@ -30,6 +29,11 @@
         android:id="@+id/genreFragment"
         android:name="com.podium.technicalchallenge.ui.genre.GenreFragment"
         android:label="it's a genre!"
-        tools:layout="@layout/fragment_genre" />
+        tools:layout="@layout/fragment_genre">
+
+        <action
+            android:id="@+id/action_genreFragment_to_movieDetailFragment"
+            app:destination="@+id/movieDetailFragment" />
+    </fragment>
 
 </navigation>

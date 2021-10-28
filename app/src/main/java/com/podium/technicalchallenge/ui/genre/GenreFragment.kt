@@ -15,7 +15,6 @@ import javax.inject.Inject
 
 
 //TODO fix last element getting cut off
-//TODO clicks for movies
 @AndroidEntryPoint
 class GenreFragment : Fragment() {
 

@@ -9,7 +9,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class GenreFragmentViewModel @Inject constructor(private val modelFactory: GenreFragmentModelFactory) : ViewModel() {
+class GenreFragmentViewModel @Inject constructor(private val modelFactory: GenreFragmentModelFactory, private val eventFactory: GenreFragmentEventFactory) : ViewModel() {
 
     private val liveModel: MutableLiveData<GenreFragmentModel> = MutableLiveData(modelFactory.createLoadingModel())
     val observableModel: LiveData<GenreFragmentModel> = liveModel
@@ -27,6 +27,6 @@ class GenreFragmentViewModel @Inject constructor(private val modelFactory: Genre
     }
 
     fun onMovieClicked(movieId: Int) {
-
+        eventPublisher.value = eventFactory.createOnMovieClickedEvent(movieId)
     }
 }
