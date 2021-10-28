@@ -23,7 +23,12 @@
         android:id="@+id/movieDetailFragment"
         android:name="com.podium.technicalchallenge.ui.moviedetail.MovieDetailFragment"
         android:label="it's a movie!"
-        tools:layout="@layout/fragment_movie_detail" />
+        tools:layout="@layout/fragment_movie_detail">
+
+        <action
+            android:id="@+id/action_movieDetailFragment_to_genreFragment"
+            app:destination="@+id/genreFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/genreFragment"
