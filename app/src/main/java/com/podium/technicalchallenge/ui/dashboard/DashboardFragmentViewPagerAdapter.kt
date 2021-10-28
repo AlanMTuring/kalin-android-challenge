@@ -3,11 +3,15 @@ package com.podium.technicalchallenge.ui.dashboard
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager.widget.PagerAdapter
+import com.podium.technicalchallenge.R
 import com.podium.technicalchallenge.databinding.LayoutGenreListBinding
 import com.podium.technicalchallenge.databinding.LayoutMovieListBinding
 import com.podium.technicalchallenge.ui.dashboard.movielist.MovieListAdapter
+import com.podium.technicalchallenge.ui.genre.SortOptions
 import javax.inject.Inject
 
 class DashboardFragmentViewPagerAdapter @Inject constructor(private val genresAdapter: GenreListAdapter,
@@ -20,6 +24,7 @@ class DashboardFragmentViewPagerAdapter @Inject constructor(private val genresAd
 
     lateinit var movieClickListener: (Int) -> Unit
     lateinit var genreClickListener: (String) -> Unit
+    lateinit var sortMoviesBy: (SortOptions) -> Unit
 
     override fun getCount() = 3
 
@@ -49,6 +54,22 @@ class DashboardFragmentViewPagerAdapter @Inject constructor(private val genresAd
                 browseAllBinding.movieListRecycler.layoutManager = LinearLayoutManager(container.context)
                 allMoviesAdapter.movieClickListener = movieClickListener
                 browseAllBinding.movieListRecycler.adapter = allMoviesAdapter
+                browseAllBinding.showSortBy = true
+                val sortAdapter = ArrayAdapter.createFromResource(container.context, R.array.sort_options, R.layout.item_sort_spinner_option)
+                browseAllBinding.sortSpinner.adapter = sortAdapter
+                browseAllBinding.sortSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                        when (position) {
+                            0 -> sortMoviesBy(SortOptions.Title)
+                            1 -> sortMoviesBy(SortOptions.Popularity)
+                            2 -> sortMoviesBy(SortOptions.ReleaseDate)
+                            3 -> sortMoviesBy(SortOptions.Rating)
+                            4 -> sortMoviesBy(SortOptions.NumberOfRatings)
+                            5 -> sortMoviesBy(SortOptions.Duration)
+                        }
+                    }
+                    override fun onNothingSelected(p0: AdapterView<*>?) { }
+                }
                 browseAllBinding.root
             }
             else -> null
@@ -75,7 +96,7 @@ class DashboardFragmentViewPagerAdapter @Inject constructor(private val genresAd
         topFiveMoviesAdapter.update(list)
     }
 
-    fun updateBrowseAllList(list: List<MovieHeaderModel>) {
-        allMoviesAdapter.update(list)
+    fun updateBrowseAllList(list: List<MovieHeaderModel>){//}, runnable: Runnable) {
+        allMoviesAdapter.update(list)//, runnable)
     }
 }

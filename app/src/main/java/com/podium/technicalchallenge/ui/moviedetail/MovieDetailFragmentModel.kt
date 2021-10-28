@@ -8,11 +8,7 @@ data class MovieDetailFragmentModel(val isLoading: Boolean,
                                     val movieDetail: MovieDetailModel)
 
 data class MovieDetailModel(val header: MovieHeaderModel = MovieHeaderModel(),
-                            val originalLanguage: String = "",
-                            val originalTitle: String = "",
                             val overview: String = "",
-                            val voteAverage: Double = 0.0,
-                            val voteCount: Int = 0,
                             val genres: List<String> = listOf(),
                             val cast: List<CastMemberModel> = listOf(),
                             val director: DirectorModel = DirectorModel()

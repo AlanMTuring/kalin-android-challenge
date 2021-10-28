@@ -50,6 +50,8 @@ class Repo {
                     movie.runtime,
                     movie.releaseDate,
                     movie.popularity,
+                    movie.voteAverage,
+                    movie.voteCount,
                     movie.posterPath
                 )
             } else {
@@ -66,6 +68,8 @@ class Repo {
                     movie.runtime,
                     movie.releaseDate,
                     movie.popularity,
+                    movie.voteAverage,
+                    movie.voteCount,
                     movie.posterPath
                 )
             } else {
@@ -82,6 +86,8 @@ class Repo {
                     movie.runtime,
                     movie.releaseDate,
                     movie.popularity,
+                    movie.voteAverage,
+                    movie.voteCount,
                     movie.posterPath
                 )
             } else {
@@ -99,13 +105,11 @@ class Repo {
                 runtime = movie.runtime,
                 releaseDate = movie.releaseDate,
                 popularity = movie.popularity,
+                rating = movie.voteAverage,
+                numberOfRatings = movie.voteCount,
                 imageUrl = movie.posterPath
             ),
-            movie.originalLanguage,
-            movie.originalTitle,
             movie.overview,
-            movie.voteAverage,
-            movie.voteCount,
             movie.genres,
             movie.cast.map { CastMemberModel(it.profilePath, it.name, it.character, it.order) },
             DirectorModel(movie.director.id, movie.director.name)

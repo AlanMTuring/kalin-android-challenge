@@ -30,6 +30,7 @@ class DashboardFragment : Fragment() {
 
         viewPagerAdapter.movieClickListener = viewModel::onMovieClicked
         viewPagerAdapter.genreClickListener = viewModel::onGenreClicked
+        viewPagerAdapter.sortMoviesBy = viewModel::sortMoviesBy
         binding.viewPager.apply {
             adapter = viewPagerAdapter
             offscreenPageLimit = 2
@@ -44,7 +45,9 @@ class DashboardFragment : Fragment() {
 
         viewModel.observableModel.observe(this) { model ->
             binding.model = MovieListFragmentBindingModel(model.isLoading, model.isError)
-            viewPagerAdapter.updateBrowseAllList(model.allMovies)
+            viewPagerAdapter.updateBrowseAllList(model.allMovies) //{
+//                viewPagerAdapter.browseAllBinding.movieListRecycler.scrollToPosition(0)
+//            }
             viewPagerAdapter.updateGenreList(model.genres)
             viewPagerAdapter.updateTopFiveList(model.topFiveList)
         }

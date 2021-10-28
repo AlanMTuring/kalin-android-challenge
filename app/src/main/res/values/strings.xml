@@ -5,4 +5,14 @@
     <string name="title_notifications">Notifications</string>
     <string name="movies">Movies</string>
     <string name="error_text">Sorry, there was an error retrieving movies.</string>
+    <string name="sort_by">Sort by:</string>
+
+    <string-array name="sort_options">
+        <item>Title</item>
+        <item>Popularity</item>
+        <item>Release Date</item>
+        <item>Rating</item>
+        <item>Number of Ratings</item>
+        <item>Duration</item>
+    </string-array>
 </resources>

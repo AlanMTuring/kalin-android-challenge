@@ -80,7 +80,7 @@ data class MovieDetailFragmentBindingModel(val isLoading: Boolean,
     val movieHeader = movieHeaderBindingModelFactory.create(movieDetail.header)
     val movieTitle = "${movieHeader.title} (${movieHeader.releaseDate.year})"
     val movieMetadata = "${movieHeader.formattedReleaseDate} • ${movieHeader.formattedRuntime}"
-    val formattedRating = "Rated ${movieDetail.voteAverage}/10 (by ${movieDetail.voteCount} users)"
+    val formattedRating = "Rated ${movieDetail.header.rating}/10 (by ${movieDetail.header.numberOfRatings} users)"
     val formattedDirector = "Directed by: ${movieDetail.director.name}"
     val overview = movieDetail.overview
 }

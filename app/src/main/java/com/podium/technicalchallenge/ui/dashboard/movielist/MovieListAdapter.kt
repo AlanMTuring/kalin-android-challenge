@@ -15,8 +15,9 @@ class MovieListAdapter @Inject constructor(private val movieHeaderBindingModelFa
     private val asyncDiffer: AsyncListDiffer<MovieHeaderModel> = AsyncListDiffer(this, MovieHeaderModelDiffUtilCallback())
     lateinit var movieClickListener: (Int) -> Unit
 
-    fun update(movies: List<MovieHeaderModel>) {
-        asyncDiffer.submitList(movies)
+    //TODO double check this is the best way to stay at the top of the recycler
+    fun update(movies: List<MovieHeaderModel>, callback: Runnable? = null) {
+        asyncDiffer.submitList(movies, callback)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {

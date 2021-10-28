@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.podium.technicalchallenge.Repo
 import com.podium.technicalchallenge.common.MovieEvent
+import com.podium.technicalchallenge.ui.genre.SortOptions
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.launch
@@ -40,8 +41,8 @@ class DashboardFragmentViewModel @Inject constructor(private val modelFactory: D
 
     private fun getAllMovies() {
         try {
-            val headers = Repo.getInstance().getMovieHeaders()
-            liveModel.value = modelFactory.updateModelWithMovieHeaders(latestModel, headers)
+            val headers = Repo.getInstance().getMovieHeaders().sortedBy { it.title }
+            liveModel.value = modelFactory.updateModelWithAllMovies(latestModel, headers)
         } catch (ex: Exception) {
             liveModel.value = modelFactory.updateModelWithError(latestModel)
         }
@@ -62,5 +63,18 @@ class DashboardFragmentViewModel @Inject constructor(private val modelFactory: D
 
     fun onGenreClicked(genre: String) {
         eventPublisher.value = eventFactory.createOnGenreClickedEvent(genre)
+    }
+
+    fun sortMoviesBy(options: SortOptions) {
+        val safeModel = latestModel
+        val sortedList = when (options) {
+            SortOptions.Title -> safeModel.allMovies.sortedBy { it.title }
+            SortOptions.Popularity -> safeModel.allMovies.sortedByDescending { it.popularity }
+            SortOptions.ReleaseDate -> safeModel.allMovies.sortedByDescending { it.releaseDate }
+            SortOptions.Rating -> safeModel.allMovies.sortedByDescending { it.rating }
+            SortOptions.NumberOfRatings -> safeModel.allMovies.sortedByDescending { it.numberOfRatings }
+            SortOptions.Duration -> safeModel.allMovies.sortedByDescending { it.runtime }
+        }
+        liveModel.value = modelFactory.updateModelWithAllMovies(safeModel, sortedList)
     }
 }
