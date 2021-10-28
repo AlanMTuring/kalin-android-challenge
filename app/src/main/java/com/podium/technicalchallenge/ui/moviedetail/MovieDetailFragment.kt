@@ -76,7 +76,7 @@ data class MovieDetailFragmentBindingModel(val isLoading: Boolean,
                                            val isError: Boolean,
                                            private val movieDetail: MovieDetailModel,
                                            private val movieHeaderBindingModelFactory: MovieHeaderBindingModelFactory) {
-
+    val showContent = !isLoading && !isError
     val movieHeader = movieHeaderBindingModelFactory.create(movieDetail.header)
     val movieTitle = "${movieHeader.title} (${movieHeader.releaseDate.year})"
     val movieMetadata = "${movieHeader.formattedReleaseDate} • ${movieHeader.formattedRuntime}"

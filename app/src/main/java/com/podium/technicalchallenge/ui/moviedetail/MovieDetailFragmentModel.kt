@@ -23,5 +23,5 @@ data class DirectorModel(val id: Int = 0, val name: String = "")
 
 class MovieDetailFragmentModelFactory @Inject constructor() {
     fun createLoadingModel() = MovieDetailFragmentModel(isLoading = true, isError = false, movieDetail = MovieDetailModel())
-    fun updateModelWithDetail(previousModel: MovieDetailFragmentModel, detail: MovieDetailModel) = previousModel.copy(movieDetail = detail)
+    fun updateModelWithDetail(previousModel: MovieDetailFragmentModel, detail: MovieDetailModel) = previousModel.copy(movieDetail = detail, isLoading = false)
 }
