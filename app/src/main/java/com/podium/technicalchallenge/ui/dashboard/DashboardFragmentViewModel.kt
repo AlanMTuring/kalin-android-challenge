@@ -34,7 +34,7 @@ class DashboardFragmentViewModel @Inject constructor(private val modelFactory: D
             val top5Headers = Repo.getInstance().getTopFiveHeaders()
             liveModel.value = modelFactory.updateModelWithTopFiveMovies(latestModel, top5Headers)
         } catch (ex: Exception) {
-
+            //todo handle errors
         }
     }
 
@@ -48,7 +48,12 @@ class DashboardFragmentViewModel @Inject constructor(private val modelFactory: D
     }
 
     private fun getGenres() {
-
+        try {
+            val genres = Repo.getInstance().getGenres().sorted()
+            liveModel.value = modelFactory.updateModelWithGenres(latestModel, genres)
+        } catch (ex: Exception) {
+            //todo handle errors
+        }
     }
 
     fun onMovieClicked(movieId: Int) {

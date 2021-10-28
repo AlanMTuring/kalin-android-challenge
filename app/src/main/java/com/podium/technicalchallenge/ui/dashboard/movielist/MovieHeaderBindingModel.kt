@@ -1,5 +1,6 @@
-package com.podium.technicalchallenge.ui.dashboard
+package com.podium.technicalchallenge.ui.dashboard.movielist
 
+import com.podium.technicalchallenge.ui.dashboard.MovieHeaderModel
 import dagger.Reusable
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter

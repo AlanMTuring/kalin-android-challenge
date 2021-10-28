@@ -3,10 +3,10 @@ package com.podium.technicalchallenge.ui.dashboard
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.get
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager.widget.PagerAdapter
 import com.podium.technicalchallenge.databinding.ItemMovieListBinding
+import com.podium.technicalchallenge.ui.dashboard.movielist.MovieListAdapter
 import javax.inject.Inject
 
 class DashboardFragmentViewPagerAdapter @Inject constructor(private val genresAdapter: GenreListAdapter,

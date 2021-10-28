@@ -6,7 +6,7 @@
     <data>
         <variable
             name="model"
-            type="com.podium.technicalchallenge.ui.dashboard.MovieHeaderBindingModel" />
+            type="com.podium.technicalchallenge.ui.dashboard.movielist.MovieHeaderBindingModel" />
     </data>
 
     <androidx.cardview.widget.CardView

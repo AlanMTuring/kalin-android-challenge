@@ -10,7 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.podium.technicalchallenge.databinding.FragmentMovieDetailBinding
-import com.podium.technicalchallenge.ui.dashboard.MovieHeaderBindingModelFactory
+import com.podium.technicalchallenge.ui.dashboard.movielist.MovieHeaderBindingModelFactory
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -75,7 +75,8 @@ class MovieDetailFragment : Fragment() {
 data class MovieDetailFragmentBindingModel(val isLoading: Boolean,
                                            val isError: Boolean,
                                            private val movieDetail: MovieDetailModel,
-                                           private val movieHeaderBindingModelFactory: MovieHeaderBindingModelFactory) {
+                                           private val movieHeaderBindingModelFactory: MovieHeaderBindingModelFactory
+) {
 
     val movieHeader = movieHeaderBindingModelFactory.create(movieDetail.header)
     val movieTitle = "${movieHeader.title} (${movieHeader.releaseDate.year})"

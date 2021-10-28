@@ -44,8 +44,8 @@ class DashboardFragment : Fragment() {
 
         viewModel.observableModel.observe(this) { model ->
             binding.model = MovieListFragmentBindingModel(model.isLoading, model.isError)
-            viewPagerAdapter.updateBrowseAllList(model.movieList)
-            viewPagerAdapter.updateGenreList(listOf("NOICE", "TOIGHT", "IT'S WERKIN"))//todo pass in the right data
+            viewPagerAdapter.updateBrowseAllList(model.allMovies)
+            viewPagerAdapter.updateGenreList(model.genres)
             viewPagerAdapter.updateTopFiveList(model.topFiveList)
         }
     }

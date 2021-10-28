@@ -28,6 +28,11 @@ class Repo {
         return@runBlocking gqlToHeaderList2(gqlMovieList)
     }
 
+    fun getGenres(): List<String> = runBlocking(Dispatchers.IO) {
+        val response = ApiClient.getInstance().movieClient.query(GetGenresQuery()).await()
+        return@runBlocking response.data?.genres ?: throw Exception("Error getting genres")
+    }
+
     //For sake of time, not looking into refactoring so methods can take both. First time working with graphQL, so i've chosen to do a little extra work fast instead of taking time to learn better queries
     private fun gqlToHeaderList2(gqlMovieLIst: List<GetTopFiveHeadersQuery.Movie?>): List<MovieHeaderModel> {
         return gqlMovieLIst.mapNotNull { movie ->
