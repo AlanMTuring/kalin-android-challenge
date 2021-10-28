@@ -5,7 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager.widget.PagerAdapter
-import com.podium.technicalchallenge.databinding.ItemMovieListBinding
+import com.podium.technicalchallenge.databinding.LayoutGenreListBinding
+import com.podium.technicalchallenge.databinding.LayoutMovieListBinding
 import com.podium.technicalchallenge.ui.dashboard.movielist.MovieListAdapter
 import javax.inject.Inject
 
@@ -13,9 +14,9 @@ class DashboardFragmentViewPagerAdapter @Inject constructor(private val genresAd
                                                             private val topFiveMoviesAdapter: MovieListAdapter,
                                                             private val allMoviesAdapter: MovieListAdapter) : PagerAdapter() {
 
-    lateinit var browseGenreBinding: ItemMovieListBinding
-    lateinit var topFiveBinding: ItemMovieListBinding
-    lateinit var browseAllBinding: ItemMovieListBinding
+    lateinit var browseGenreBinding: LayoutGenreListBinding
+    lateinit var topFiveBinding: LayoutMovieListBinding
+    lateinit var browseAllBinding: LayoutMovieListBinding
 
     lateinit var movieClickListener: (Int) -> Unit
     lateinit var genreClickListener: (String) -> Unit
@@ -30,21 +31,21 @@ class DashboardFragmentViewPagerAdapter @Inject constructor(private val genresAd
         val inflater = LayoutInflater.from(container.context)
         val view = when (position) {
             0 -> {
-                browseGenreBinding = ItemMovieListBinding.inflate(inflater, container, false)
-                browseGenreBinding.movieListRecycler.layoutManager = LinearLayoutManager(container.context)
+                browseGenreBinding = LayoutGenreListBinding.inflate(inflater, container, false)
+                browseGenreBinding.genreRecycler.layoutManager = LinearLayoutManager(container.context)
                 genresAdapter.genreClickListener = genreClickListener
-                browseGenreBinding.movieListRecycler.adapter = genresAdapter
+                browseGenreBinding.genreRecycler.adapter = genresAdapter
                 browseGenreBinding.root
             }
             1 -> {
-                topFiveBinding = ItemMovieListBinding.inflate(inflater, container, false)
+                topFiveBinding = LayoutMovieListBinding.inflate(inflater, container, false)
                 topFiveBinding.movieListRecycler.layoutManager = LinearLayoutManager(container.context)
                 topFiveMoviesAdapter.movieClickListener = movieClickListener
                 topFiveBinding.movieListRecycler.adapter = topFiveMoviesAdapter
                 topFiveBinding.root
             }
             2 -> {
-                browseAllBinding = ItemMovieListBinding.inflate(inflater, container, false)
+                browseAllBinding = LayoutMovieListBinding.inflate(inflater, container, false)
                 browseAllBinding.movieListRecycler.layoutManager = LinearLayoutManager(container.context)
                 allMoviesAdapter.movieClickListener = movieClickListener
                 browseAllBinding.movieListRecycler.adapter = allMoviesAdapter
@@ -62,7 +63,7 @@ class DashboardFragmentViewPagerAdapter @Inject constructor(private val genresAd
             0 -> "Browse Genres"
             1 -> "Top 5"
             2 -> "Browse All"
-            else -> "Error"
+            else -> null
         }
     }
 

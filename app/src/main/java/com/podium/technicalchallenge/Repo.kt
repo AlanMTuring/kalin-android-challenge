@@ -33,9 +33,48 @@ class Repo {
         return@runBlocking response.data?.genres ?: throw Exception("Error getting genres")
     }
 
-    //For sake of time, not looking into refactoring so methods can take both. First time working with graphQL, so i've chosen to do a little extra work fast instead of taking time to learn better queries
-    private fun gqlToHeaderList2(gqlMovieLIst: List<GetTopFiveHeadersQuery.Movie?>): List<MovieHeaderModel> {
-        return gqlMovieLIst.mapNotNull { movie ->
+    fun getMoviesByGenre(genre: String): List<MovieHeaderModel> = runBlocking(Dispatchers.IO) {
+        val response = ApiClient.getInstance().movieClient.query(GetHeadersByGenreQuery(genre)).await()
+        val gqlMovieList = response.data?.movies ?: throw Exception("Error getting movies by genre")
+        return@runBlocking gqlToHeaderList3(gqlMovieList)
+    }
+
+    //For sake of time, not looking into refactoring the following three methods into one method that can take all kinds of GraphQL query.movies as a .
+            //This is my first time working with graphQL, so i've chosen to do the weird work quickly (basically duplicate methods), rather than taking lots of time to learn more Apollo and GraphQL
+    private fun gqlToHeaderList(gqlMovieList: List<GetMovieHeadersQuery.Movie?>): List<MovieHeaderModel> {
+        return gqlMovieList.mapNotNull { movie ->
+            if (movie != null) {
+                MovieHeaderModel(
+                    movie.id,
+                    movie.title,
+                    movie.runtime,
+                    movie.releaseDate,
+                    movie.popularity,
+                    movie.posterPath
+                )
+            } else {
+                null
+            }
+        }
+    }
+    private fun gqlToHeaderList2(gqlMovieList: List<GetTopFiveHeadersQuery.Movie?>): List<MovieHeaderModel> {
+        return gqlMovieList.mapNotNull { movie ->
+            if (movie != null) {
+                MovieHeaderModel(
+                    movie.id,
+                    movie.title,
+                    movie.runtime,
+                    movie.releaseDate,
+                    movie.popularity,
+                    movie.posterPath
+                )
+            } else {
+                null
+            }
+        }
+    }
+    private fun gqlToHeaderList3(gqlMovieList: List<GetHeadersByGenreQuery.Movie?>): List<MovieHeaderModel> {
+        return gqlMovieList.mapNotNull { movie ->
             if (movie != null) {
                 MovieHeaderModel(
                     movie.id,
@@ -51,22 +90,6 @@ class Repo {
         }
     }
 
-    private fun gqlToHeaderList(gqlMovieLIst: List<GetMovieHeadersQuery.Movie?>): List<MovieHeaderModel> {
-        return gqlMovieLIst.mapNotNull { movie ->
-            if (movie != null) {
-                MovieHeaderModel(
-                    movie.id,
-                    movie.title,
-                    movie.runtime,
-                    movie.releaseDate,
-                    movie.popularity,
-                    movie.posterPath
-                )
-            } else {
-                null
-            }
-        }
-    }
 
     private fun graphQlToDetailModel(movie: GetMovieDetailQuery.Movie): MovieDetailModel {
         return MovieDetailModel(

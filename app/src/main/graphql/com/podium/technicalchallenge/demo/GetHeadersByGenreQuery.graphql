@@ -1,0 +1,10 @@
+query GetHeadersByGenreQuery($genre:String!) {
+  movies(genre: $genre) {
+    id
+    title
+    posterPath
+    popularity
+    runtime
+    releaseDate
+  }
+}

@@ -25,6 +25,7 @@
             tools:text="Romance" />
 
         <Button
+            android:id="@+id/see_all_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             style="@style/Widget.MaterialComponents.Button.TextButton"

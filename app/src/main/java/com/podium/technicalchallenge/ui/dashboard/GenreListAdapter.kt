@@ -15,7 +15,7 @@ class GenreListAdapter @Inject constructor() : RecyclerView.Adapter<GenreListVie
         val inflater = LayoutInflater.from(parent.context)
         val binding = ItemGenreBinding.inflate(inflater, parent, false)
         val viewHolder = GenreListViewHolder(binding)
-        binding.root.setOnClickListener {
+        binding.seeAllButton.setOnClickListener {
             val adapterPosition = viewHolder.bindingAdapterPosition
             if (adapterPosition != RecyclerView.NO_POSITION) {
                 genreClickListener(genres[adapterPosition])

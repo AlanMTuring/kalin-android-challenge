@@ -61,6 +61,6 @@ class DashboardFragmentViewModel @Inject constructor(private val modelFactory: D
     }
 
     fun onGenreClicked(genre: String) {
-
+        eventPublisher.value = eventFactory.createOnGenreClickedEvent(genre)
     }
 }

@@ -75,8 +75,7 @@ class MovieDetailFragment : Fragment() {
 data class MovieDetailFragmentBindingModel(val isLoading: Boolean,
                                            val isError: Boolean,
                                            private val movieDetail: MovieDetailModel,
-                                           private val movieHeaderBindingModelFactory: MovieHeaderBindingModelFactory
-) {
+                                           private val movieHeaderBindingModelFactory: MovieHeaderBindingModelFactory) {
 
     val movieHeader = movieHeaderBindingModelFactory.create(movieDetail.header)
     val movieTitle = "${movieHeader.title} (${movieHeader.releaseDate.year})"
