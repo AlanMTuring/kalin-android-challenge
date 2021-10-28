@@ -45,9 +45,9 @@ class DashboardFragment : Fragment() {
 
         viewModel.observableModel.observe(this) { model ->
             binding.model = MovieListFragmentBindingModel(model.isLoading, model.isError)
-            viewPagerAdapter.updateBrowseAllList(model.allMovies) //{
-//                viewPagerAdapter.browseAllBinding.movieListRecycler.scrollToPosition(0)
-//            }
+            viewPagerAdapter.updateBrowseAllList(model.allMovies) {
+                viewPagerAdapter.browseAllBinding?.movieListRecycler?.scrollToPosition(0)
+            }
             viewPagerAdapter.updateGenreList(model.genres)
             viewPagerAdapter.updateTopFiveList(model.topFiveList)
         }

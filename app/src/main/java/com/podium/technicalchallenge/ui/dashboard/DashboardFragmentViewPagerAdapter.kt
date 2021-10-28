@@ -20,7 +20,7 @@ class DashboardFragmentViewPagerAdapter @Inject constructor(private val genresAd
 
     lateinit var browseGenreBinding: LayoutGenreListBinding
     lateinit var topFiveBinding: LayoutMovieListBinding
-    lateinit var browseAllBinding: LayoutMovieListBinding
+    var browseAllBinding: LayoutMovieListBinding? = null
 
     lateinit var movieClickListener: (Int) -> Unit
     lateinit var genreClickListener: (String) -> Unit
@@ -51,13 +51,14 @@ class DashboardFragmentViewPagerAdapter @Inject constructor(private val genresAd
             }
             2 -> {
                 browseAllBinding = LayoutMovieListBinding.inflate(inflater, container, false)
-                browseAllBinding.movieListRecycler.layoutManager = LinearLayoutManager(container.context)
+                val safeBinding = browseAllBinding!!
+                safeBinding.movieListRecycler.layoutManager = LinearLayoutManager(container.context)
                 allMoviesAdapter.movieClickListener = movieClickListener
-                browseAllBinding.movieListRecycler.adapter = allMoviesAdapter
-                browseAllBinding.showSortBy = true
+                safeBinding.movieListRecycler.adapter = allMoviesAdapter
+                safeBinding.showSortBy = true
                 val sortAdapter = ArrayAdapter.createFromResource(container.context, R.array.sort_options, R.layout.item_sort_spinner_option)
-                browseAllBinding.sortSpinner.adapter = sortAdapter
-                browseAllBinding.sortSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                safeBinding.sortSpinner.adapter = sortAdapter
+                safeBinding.sortSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                         when (position) {
                             0 -> sortMoviesBy(SortOptions.Title)
@@ -70,7 +71,7 @@ class DashboardFragmentViewPagerAdapter @Inject constructor(private val genresAd
                     }
                     override fun onNothingSelected(p0: AdapterView<*>?) { }
                 }
-                browseAllBinding.root
+                safeBinding.root
             }
             else -> null
         }
@@ -96,7 +97,7 @@ class DashboardFragmentViewPagerAdapter @Inject constructor(private val genresAd
         topFiveMoviesAdapter.update(list)
     }
 
-    fun updateBrowseAllList(list: List<MovieHeaderModel>){//}, runnable: Runnable) {
-        allMoviesAdapter.update(list)//, runnable)
+    fun updateBrowseAllList(list: List<MovieHeaderModel>, runnable: Runnable) {
+        allMoviesAdapter.update(list, runnable)
     }
 }
