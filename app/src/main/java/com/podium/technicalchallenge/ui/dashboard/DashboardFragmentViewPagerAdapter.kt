@@ -18,8 +18,8 @@ class DashboardFragmentViewPagerAdapter @Inject constructor(private val genresAd
                                                             private val topFiveMoviesAdapter: MovieListAdapter,
                                                             private val allMoviesAdapter: MovieListAdapter) : PagerAdapter() {
 
-    lateinit var browseGenreBinding: LayoutGenreListBinding
-    lateinit var topFiveBinding: LayoutMovieListBinding
+    var browseGenreBinding: LayoutGenreListBinding? = null
+    var topFiveBinding: LayoutMovieListBinding? = null
     var browseAllBinding: LayoutMovieListBinding? = null
 
     lateinit var movieClickListener: (Int) -> Unit
@@ -37,17 +37,19 @@ class DashboardFragmentViewPagerAdapter @Inject constructor(private val genresAd
         val view = when (position) {
             0 -> {
                 browseGenreBinding = LayoutGenreListBinding.inflate(inflater, container, false)
-                browseGenreBinding.genreRecycler.layoutManager = LinearLayoutManager(container.context)
+                val safeBinding = browseGenreBinding!!
+                safeBinding.genreRecycler.layoutManager = LinearLayoutManager(container.context)
                 genresAdapter.genreClickListener = genreClickListener
-                browseGenreBinding.genreRecycler.adapter = genresAdapter
-                browseGenreBinding.root
+                safeBinding.genreRecycler.adapter = genresAdapter
+                safeBinding.root
             }
             1 -> {
                 topFiveBinding = LayoutMovieListBinding.inflate(inflater, container, false)
-                topFiveBinding.movieListRecycler.layoutManager = LinearLayoutManager(container.context)
+                val safeBinding = topFiveBinding!!
+                safeBinding.movieListRecycler.layoutManager = LinearLayoutManager(container.context)
                 topFiveMoviesAdapter.movieClickListener = movieClickListener
-                topFiveBinding.movieListRecycler.adapter = topFiveMoviesAdapter
-                topFiveBinding.root
+                safeBinding.movieListRecycler.adapter = topFiveMoviesAdapter
+                safeBinding.root
             }
             2 -> {
                 browseAllBinding = LayoutMovieListBinding.inflate(inflater, container, false)
@@ -55,7 +57,6 @@ class DashboardFragmentViewPagerAdapter @Inject constructor(private val genresAd
                 safeBinding.movieListRecycler.layoutManager = LinearLayoutManager(container.context)
                 allMoviesAdapter.movieClickListener = movieClickListener
                 safeBinding.movieListRecycler.adapter = allMoviesAdapter
-                safeBinding.showSortBy = true
                 val sortAdapter = ArrayAdapter.createFromResource(container.context, R.array.sort_options, R.layout.item_sort_spinner_option)
                 safeBinding.sortSpinner.adapter = sortAdapter
                 safeBinding.sortSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -89,15 +90,18 @@ class DashboardFragmentViewPagerAdapter @Inject constructor(private val genresAd
         }
     }
 
-    fun updateGenreList(list: List<String>) {
-        genresAdapter.update(list)
+    fun updateGenreList(genres: List<String>, bindingModel: GenresListBindingModel) {
+        genresAdapter.update(genres)
+        browseGenreBinding?.model = bindingModel
     }
 
-    fun updateTopFiveList(list: List<MovieHeaderModel>) {
-        topFiveMoviesAdapter.update(list)
+    fun updateTopFiveList(movieList: List<MovieHeaderModel>, bindingModel: MovieListBindingModel) {
+        topFiveMoviesAdapter.update(movieList)
+        topFiveBinding?.model = bindingModel
     }
 
-    fun updateBrowseAllList(list: List<MovieHeaderModel>, runnable: Runnable) {
-        allMoviesAdapter.update(list, runnable)
+    fun updateBrowseAllList(movieList: List<MovieHeaderModel>, bindingModel: MovieListBindingModel, runnable: Runnable) {
+        allMoviesAdapter.update(movieList, runnable)
+        browseAllBinding?.model = bindingModel
     }
 }

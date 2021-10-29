@@ -44,12 +44,11 @@ class DashboardFragment : Fragment() {
         viewModel.fetchData()
 
         viewModel.observableModel.observe(this) { model ->
-            binding.model = MovieListFragmentBindingModel(model.isLoading, model.isError)
-            viewPagerAdapter.updateBrowseAllList(model.allMovies) {
+            viewPagerAdapter.updateGenreList(model.genresModel.genres, GenresListBindingModel(model.genresModel.isLoading, model.genresModel.isError),)
+            viewPagerAdapter.updateTopFiveList(model.topFiveModel.movieList, MovieListBindingModel(false, model.topFiveModel.isLoading, model.topFiveModel.isError))
+            viewPagerAdapter.updateBrowseAllList(model.allMoviesModel.movieList, MovieListBindingModel(true, model.allMoviesModel.isLoading, model.allMoviesModel.isError)) {
                 viewPagerAdapter.browseAllBinding?.movieListRecycler?.scrollToPosition(0)
             }
-            viewPagerAdapter.updateGenreList(model.genres)
-            viewPagerAdapter.updateTopFiveList(model.topFiveList)
         }
     }
 
@@ -66,8 +65,12 @@ class DashboardFragment : Fragment() {
     }
 }
 
-data class MovieListFragmentBindingModel(val isLoading: Boolean,
-                                         val isError: Boolean) {
+
+data class MovieListBindingModel(val isSortable: Boolean, val isLoading: Boolean, val isError: Boolean) {
     val showContent = !isLoading && !isError
+    val showSortBy = !isLoading && !isError && isSortable
 }
 
+data class GenresListBindingModel(val isLoading: Boolean, val isError: Boolean) {
+    val showContent = !isLoading && !isError
+}

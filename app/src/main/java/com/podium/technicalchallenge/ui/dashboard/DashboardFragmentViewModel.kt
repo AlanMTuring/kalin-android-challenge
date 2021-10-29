@@ -26,9 +26,22 @@ class DashboardFragmentViewModel @Inject constructor(private val modelFactory: D
 
     fun fetchData() {
         viewModelScope.launch {
+            getGenres()
             getTopFiveMovies()
             getAllMovies()
-            getGenres()
+        }
+    }
+
+    private fun getGenres() {
+        viewModelScope.launch {
+            try {
+                val genres = withContext(Dispatchers.IO) {
+                    Repo.getInstance().getGenres().sorted()
+                }
+                liveModel.value = modelFactory.updateModelWithGenres(latestModel, genres)
+            } catch (ex: Exception) {
+                liveModel.value = modelFactory.updateModelWithGenresError(latestModel)
+            }
         }
     }
 
@@ -40,7 +53,7 @@ class DashboardFragmentViewModel @Inject constructor(private val modelFactory: D
                 }
                 liveModel.value = modelFactory.updateModelWithTopFiveMovies(latestModel, top5Headers)
             } catch (ex: Exception) {
-                //todo handle errors
+                liveModel.value = modelFactory.updateModelWithTopFiveMoviesError(latestModel)
             }
         }
     }
@@ -53,20 +66,7 @@ class DashboardFragmentViewModel @Inject constructor(private val modelFactory: D
                 }
                 liveModel.value = modelFactory.updateModelWithAllMovies(latestModel, headers)
             } catch (ex: Exception) {
-                liveModel.value = modelFactory.updateModelWithError(latestModel)
-            }
-        }
-    }
-
-    private fun getGenres() {
-        viewModelScope.launch {
-            try {
-                val genres = withContext(Dispatchers.IO) {
-                    Repo.getInstance().getGenres().sorted()
-                }
-                liveModel.value = modelFactory.updateModelWithGenres(latestModel, genres)
-            } catch (ex: Exception) {
-                //todo handle errors
+                liveModel.value = modelFactory.updateModelWithAllMoviesError(latestModel)
             }
         }
     }
@@ -80,14 +80,16 @@ class DashboardFragmentViewModel @Inject constructor(private val modelFactory: D
     }
 
     fun sortMoviesBy(options: SortOptions) {
+        if (latestModel.allMoviesModel.isLoading) return
         val safeModel = latestModel
+        val allMoviesModel = latestModel.allMoviesModel
         val sortedList = when (options) {
-            SortOptions.Title -> safeModel.allMovies.sortedBy { it.title }
-            SortOptions.Popularity -> safeModel.allMovies.sortedByDescending { it.popularity }
-            SortOptions.ReleaseDate -> safeModel.allMovies.sortedByDescending { it.releaseDate }
-            SortOptions.Rating -> safeModel.allMovies.sortedByDescending { it.rating }
-            SortOptions.NumberOfRatings -> safeModel.allMovies.sortedByDescending { it.numberOfRatings }
-            SortOptions.Duration -> safeModel.allMovies.sortedByDescending { it.runtime }
+            SortOptions.Title -> allMoviesModel.movieList.sortedBy { it.title }
+            SortOptions.Popularity -> allMoviesModel.movieList.sortedByDescending { it.popularity }
+            SortOptions.ReleaseDate -> allMoviesModel.movieList.sortedByDescending { it.releaseDate }
+            SortOptions.Rating -> allMoviesModel.movieList.sortedByDescending { it.rating }
+            SortOptions.NumberOfRatings -> allMoviesModel.movieList.sortedByDescending { it.numberOfRatings }
+            SortOptions.Duration -> allMoviesModel.movieList.sortedByDescending { it.runtime }
         }
         liveModel.value = modelFactory.updateModelWithAllMovies(safeModel, sortedList)
     }

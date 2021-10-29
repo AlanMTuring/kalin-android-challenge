@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.podium.technicalchallenge.R
 import com.podium.technicalchallenge.databinding.FragmentGenreBinding
+import com.podium.technicalchallenge.ui.dashboard.MovieListBindingModel
 import com.podium.technicalchallenge.ui.dashboard.movielist.MovieListAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -64,10 +65,8 @@ class GenreFragment : Fragment() {
 
         viewModel.observableModel.observe(this) { model ->
             binding.model = GenreFragmentBindingModel(
-                model.isLoading,
-                model.isError,
                 model.genreName,
-                model.showSortBy
+                MovieListBindingModel(model.showSortBy, model.isLoading, model.isError)
             )
             movieAdapter.update(model.movies) {
                 binding.movieList.movieListRecycler.scrollToPosition(0)
@@ -89,7 +88,4 @@ class GenreFragment : Fragment() {
 
 }
 
-data class GenreFragmentBindingModel(val isLoading: Boolean,
-                                     val isError: Boolean,
-                                     val name: String,
-                                     val showSortBy: Boolean)
+data class GenreFragmentBindingModel(val name: String, val movieListBindingModel: MovieListBindingModel)

@@ -31,7 +31,7 @@
             android:layout_height="0dp"
             android:layout_marginTop="16dp"
             layout="@layout/layout_movie_list"
-            app:showSortBy="@{model.showSortBy}"
+            app:model="@{model.movieListBindingModel}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/genre_name"

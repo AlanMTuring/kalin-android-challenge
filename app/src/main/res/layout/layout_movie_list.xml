@@ -5,20 +5,41 @@
 
     <data>
         <variable
-            name="showSortBy"
-            type="Boolean" />
+            name="model"
+            type="com.podium.technicalchallenge.ui.dashboard.MovieListBindingModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:visibility="@{model.isLoading}"
+            android:indeterminate="true"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/movies_error_text"
+            app:layout_constraintVertical_bias=".25"
+            app:visibility="@{model.isError}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
         <TextView
             android:id="@+id/sort_by_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/sort_by"
-            app:visibility="@{showSortBy}"
+            app:visibility="@{model.showSortBy}"
             android:layout_marginHorizontal="16dp"
             app:layout_constraintEnd_toStartOf="@id/sort_spinner"
             app:layout_constraintTop_toTopOf="@id/sort_spinner"
@@ -29,7 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            app:visibility="@{showSortBy}"
+            app:visibility="@{model.showSortBy}"
             android:spinnerMode="dropdown"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -42,6 +63,7 @@
             android:layout_marginTop="8dp"
             android:paddingTop="8dp"
             android:layout_marginHorizontal="16dp"
+            app:visibility="@{model.showContent}"
             android:clipToPadding="false"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

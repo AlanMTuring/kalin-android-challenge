@@ -2,11 +2,17 @@ package com.podium.technicalchallenge.ui.dashboard
 
 import javax.inject.Inject
 
-data class DashboardFragmentModel(val isLoading: Boolean,
-                                  val isError: Boolean,
-                                  val allMovies: List<MovieHeaderModel>,
-                                  val genres: List<String>,
-                                  val topFiveList: List<MovieHeaderModel>)
+data class DashboardFragmentModel(val genresModel: GenreListModel,
+                    val topFiveModel: MovieListModel,
+                    val allMoviesModel: MovieListModel)
+
+data class GenreListModel(val isLoading: Boolean,
+                          val isError: Boolean,
+                          val genres: List<String>)
+
+data class MovieListModel(val isLoading: Boolean,
+                          val isError: Boolean,
+                          val movieList: List<MovieHeaderModel>)
 
 data class MovieHeaderModel(val id: Int = 0,
                             val title: String = "",
@@ -18,9 +24,36 @@ data class MovieHeaderModel(val id: Int = 0,
                             val imageUrl: String? = null)
 
 class DashboardFragmentModelFactory @Inject constructor() {
-    fun createLoadingModel() = DashboardFragmentModel(isLoading = true, isError = false, allMovies = listOf(), genres = listOf(), topFiveList = listOf())
-    fun updateModelWithAllMovies(previousModel: DashboardFragmentModel, movies: List<MovieHeaderModel>) = previousModel.copy(allMovies = movies, isLoading = false)
-    fun updateModelWithTopFiveMovies(previousModel: DashboardFragmentModel, movies: List<MovieHeaderModel>) = previousModel.copy(topFiveList = movies, isLoading = false)
-    fun updateModelWithError(previousModel: DashboardFragmentModel)  = previousModel.copy(isError = true, isLoading = false)
-    fun updateModelWithGenres(previousModel: DashboardFragmentModel, genres: List<String>) = previousModel.copy(genres = genres)
+    fun createLoadingModel() = DashboardFragmentModel(
+        GenreListModel(isLoading = true, isError = false, genres = listOf()),
+        MovieListModel(isLoading = true, isError = false, movieList = listOf()),
+        MovieListModel(isLoading = true, isError = false, movieList= listOf())
+    )
+
+    fun updateModelWithAllMovies(previousModel: DashboardFragmentModel, movies: List<MovieHeaderModel>): DashboardFragmentModel {
+        val previousAllMoviesModel = previousModel.allMoviesModel
+        return previousModel.copy(allMoviesModel = previousAllMoviesModel.copy(movieList = movies, isLoading = false))
+    }
+    fun updateModelWithAllMoviesError(previousModel: DashboardFragmentModel): DashboardFragmentModel {
+        val previousAllMoviesModel = previousModel.allMoviesModel
+        return previousModel.copy(allMoviesModel = previousAllMoviesModel.copy(isError = true, isLoading = false))
+    }
+
+    fun updateModelWithTopFiveMovies(previousModel: DashboardFragmentModel, movies: List<MovieHeaderModel>): DashboardFragmentModel {
+        val previousTopFiveModel = previousModel.topFiveModel
+        return previousModel.copy(topFiveModel = previousTopFiveModel.copy(movieList = movies, isLoading = false))
+    }
+    fun updateModelWithTopFiveMoviesError(previousModel: DashboardFragmentModel): DashboardFragmentModel {
+        val previousTopFiveModel = previousModel.topFiveModel
+        return previousModel.copy(topFiveModel = previousTopFiveModel.copy(isError = true, isLoading = false))
+    }
+
+    fun updateModelWithGenres(previousModel: DashboardFragmentModel, genres: List<String>): DashboardFragmentModel {
+        val previousGenresModel = previousModel.genresModel
+        return previousModel.copy(genresModel = previousGenresModel.copy(genres = genres, isLoading = false))
+    }
+    fun updateModelWithGenresError(previousModel: DashboardFragmentModel): DashboardFragmentModel {
+        val previousGenresModel = previousModel.genresModel
+        return previousModel.copy(genresModel = previousGenresModel.copy(isError = true, isLoading = false))
+    }
 }
