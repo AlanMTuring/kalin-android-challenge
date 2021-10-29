@@ -30,6 +30,7 @@ class DashboardFragment : Fragment() {
 
         viewPagerAdapter.movieClickListener = viewModel::onMovieClicked
         viewPagerAdapter.genreClickListener = viewModel::onGenreClicked
+        viewPagerAdapter.imageClickListener = viewModel::onImageClicked
         viewPagerAdapter.sortMoviesBy = viewModel::sortMoviesBy
         viewPagerAdapter.browseGenresTryAgainClicked = viewModel::browseGenresTryAgainClicked
         viewPagerAdapter.topFiveTryAgainClicked = viewModel::topFiveTryAgainClicked

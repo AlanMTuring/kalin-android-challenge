@@ -9,11 +9,22 @@ import javax.inject.Inject
 class CastAdapter @Inject constructor() : RecyclerView.Adapter<CastMemberViewHolder>() {
 
     lateinit var castList: List<CastMemberModel>
+    lateinit var imageClickListener: (String?) -> Unit
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CastMemberViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = ItemCastMemberCardBinding.inflate(inflater, parent, false)
-        return CastMemberViewHolder(binding)
+        val viewHolder = CastMemberViewHolder(binding)
+
+        binding.profileImage.setOnClickListener {
+            val adapterPosition = viewHolder.bindingAdapterPosition
+            if (adapterPosition != RecyclerView.NO_POSITION) {
+                val imageUrl = castList[adapterPosition].imageUrl
+                imageClickListener(imageUrl)
+            }
+        }
+
+        return viewHolder
     }
 
     override fun onBindViewHolder(holder: CastMemberViewHolder, position: Int) {

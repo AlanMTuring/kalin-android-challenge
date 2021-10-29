@@ -94,6 +94,10 @@ class DashboardFragmentViewModel @Inject constructor(private val modelFactory: D
         eventPublisher.value = eventFactory.createOnGenreClickedEvent(genre)
     }
 
+    fun onImageClicked(imageUrl: String?) {
+        eventPublisher.value = eventFactory.createOnImageClickedEvent(imageUrl)
+    }
+
     fun sortMoviesBy(options: SortOptions) {
         if (latestModel.allMoviesModel.isLoading) return
         val safeModel = latestModel

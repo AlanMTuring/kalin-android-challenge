@@ -40,6 +40,7 @@ class MovieDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         genreChipAdapter.genreClickListener = viewModel::onGenreChipClicked
+        castAdapter.imageClickListener = viewModel::onImageClicked
         binding.genreRecycler.adapter = genreChipAdapter
         binding.genreRecycler.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
         binding.castRecycler.adapter = castAdapter

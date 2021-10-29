@@ -38,6 +38,7 @@ class GenreFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         movieAdapter.movieClickListener = viewModel::onMovieClicked
+        movieAdapter.imageClickListener = viewModel::onImageClicked
         binding.movieList.movieListRecycler.adapter = movieAdapter
         binding.movieList.movieListRecycler.layoutManager = LinearLayoutManager(context)
         binding.movieList.tryAgainButton.setOnClickListener { viewModel.onTryAgainClicked() }

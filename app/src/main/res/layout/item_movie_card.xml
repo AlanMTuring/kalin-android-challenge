@@ -27,6 +27,9 @@
                 android:layout_width="80dp"
                 android:layout_height="120dp"
                 app:imageUrl="@{model.imageUrl}"
+                android:focusable="true"
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent" />

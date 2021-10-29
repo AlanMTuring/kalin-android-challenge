@@ -17,6 +17,9 @@
         <action
             android:id="@+id/action_dashboardFragment_to_genreFragment"
             app:destination="@+id/genreFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_imageDialog"
+            app:destination="@+id/imageDialog" />
     </fragment>
 
     <fragment
@@ -28,6 +31,9 @@
         <action
             android:id="@+id/action_movieDetailFragment_to_genreFragment"
             app:destination="@+id/genreFragment" />
+        <action
+            android:id="@+id/action_movieDetailFragment_to_imageDialog"
+            app:destination="@+id/imageDialog" />
     </fragment>
 
     <fragment
@@ -39,6 +45,14 @@
         <action
             android:id="@+id/action_genreFragment_to_movieDetailFragment"
             app:destination="@+id/movieDetailFragment" />
+        <action
+            android:id="@+id/action_genreFragment_to_imageDialog"
+            app:destination="@+id/imageDialog" />
     </fragment>
+
+
+    <dialog
+        android:id="@+id/imageDialog"
+        android:name="com.podium.technicalchallenge.ui.ImageDialogFragment" />
 
 </navigation>

@@ -51,6 +51,10 @@ class GenreFragmentViewModel @Inject constructor(private val modelFactory: Genre
         eventPublisher.value = eventFactory.createOnMovieClickedEvent(movieId)
     }
 
+    fun onImageClicked(imageUrl: String?) {
+        eventPublisher.value = eventFactory.createOnImageClickedEvent(imageUrl)
+    }
+
     fun sortMoviesBy(options: SortOptions) {
         if (latestModel.movieListModel.isLoading) return
         val safeModel = latestModel

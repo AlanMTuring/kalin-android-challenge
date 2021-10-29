@@ -18,12 +18,13 @@ class DashboardFragmentViewPagerAdapter @Inject constructor(private val genresAd
                                                             private val topFiveMoviesAdapter: MovieListAdapter,
                                                             private val allMoviesAdapter: MovieListAdapter) : PagerAdapter() {
 
-    var browseGenreBinding: LayoutGenreListBinding? = null
-    var topFiveBinding: LayoutMovieListBinding? = null
+    private var browseGenreBinding: LayoutGenreListBinding? = null
+    private var topFiveBinding: LayoutMovieListBinding? = null
     var browseAllBinding: LayoutMovieListBinding? = null
 
     lateinit var movieClickListener: (Int) -> Unit
     lateinit var genreClickListener: (String) -> Unit
+    lateinit var imageClickListener: (String?) -> Unit
     lateinit var sortMoviesBy: (SortOptions) -> Unit
     lateinit var topFiveTryAgainClicked: () -> Unit
     lateinit var browseAllTryAgainClicked: () -> Unit
@@ -52,6 +53,7 @@ class DashboardFragmentViewPagerAdapter @Inject constructor(private val genresAd
                 val safeBinding = topFiveBinding!!
                 safeBinding.movieListRecycler.layoutManager = LinearLayoutManager(container.context)
                 topFiveMoviesAdapter.movieClickListener = movieClickListener
+                topFiveMoviesAdapter.imageClickListener = imageClickListener
                 safeBinding.movieListRecycler.adapter = topFiveMoviesAdapter
                 safeBinding.tryAgainButton.setOnClickListener { topFiveTryAgainClicked() }
                 safeBinding.root
@@ -61,6 +63,7 @@ class DashboardFragmentViewPagerAdapter @Inject constructor(private val genresAd
                 val safeBinding = browseAllBinding!!
                 safeBinding.movieListRecycler.layoutManager = LinearLayoutManager(container.context)
                 allMoviesAdapter.movieClickListener = movieClickListener
+                allMoviesAdapter.imageClickListener = imageClickListener
                 safeBinding.movieListRecycler.adapter = allMoviesAdapter
                 safeBinding.tryAgainButton.setOnClickListener { browseAllTryAgainClicked() }
                 val sortAdapter = ArrayAdapter.createFromResource(container.context, R.array.sort_options, R.layout.item_sort_spinner_option)

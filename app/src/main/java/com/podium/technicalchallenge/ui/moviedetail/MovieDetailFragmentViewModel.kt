@@ -40,4 +40,8 @@ class MovieDetailFragmentViewModel @Inject constructor(private val modelFactory:
     fun onGenreChipClicked(genre: String) {
         eventPublisher.value = eventFactory.createOnGenreChipClickedEvent(genre)
     }
+
+    fun onImageClicked(imageUrl: String?) {
+        eventPublisher.value = eventFactory.createOnImageClickedEvent(imageUrl)
+    }
 }

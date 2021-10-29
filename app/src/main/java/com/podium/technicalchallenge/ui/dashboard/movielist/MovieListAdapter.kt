@@ -14,6 +14,7 @@ class MovieListAdapter @Inject constructor(private val movieHeaderBindingModelFa
 
     private val asyncDiffer: AsyncListDiffer<MovieHeaderModel> = AsyncListDiffer(this, MovieHeaderModelDiffUtilCallback())
     lateinit var movieClickListener: (Int) -> Unit
+    lateinit var imageClickListener: (String?) -> Unit
 
     fun update(movies: List<MovieHeaderModel>, callback: Runnable? = null) {
         asyncDiffer.submitList(movies, callback)
@@ -24,6 +25,15 @@ class MovieListAdapter @Inject constructor(private val movieHeaderBindingModelFa
         val binding = ItemMovieCardBinding.inflate(inflater, parent, false)
 
         val viewHolder = MovieViewHolder(binding, movieHeaderBindingModelFactory)
+
+        binding.moviePoster.setOnClickListener {
+            val adapterPosition = viewHolder.bindingAdapterPosition
+            if (adapterPosition != RecyclerView.NO_POSITION) {
+                val imageUrl = asyncDiffer.currentList[adapterPosition].imageUrl
+                imageClickListener(imageUrl)
+            }
+        }
+
         binding.root.setOnClickListener {
             val adapterPosition = viewHolder.bindingAdapterPosition
             if (adapterPosition != RecyclerView.NO_POSITION) {
