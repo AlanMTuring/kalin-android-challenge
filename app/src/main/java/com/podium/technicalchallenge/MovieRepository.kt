@@ -1,5 +1,6 @@
 package com.podium.technicalchallenge
 
+import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.coroutines.await
 import com.podium.technicalchallenge.ui.dashboard.MovieHeaderModel
 import com.podium.technicalchallenge.ui.moviedetail.CastMemberModel
@@ -9,33 +10,33 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class MovieRepository @Inject constructor() {
+class MovieRepository @Inject constructor(private val apolloClient: ApolloClient) {
 
     suspend fun getMovieHeaders(): List<MovieHeaderModel> {
-        val response = ApiClient.getInstance().movieClient.query(GetMovieHeadersQuery()).await()
+        val response = apolloClient.query(GetMovieHeadersQuery()).await()
         val gqlMovieList = response.data?.movies ?: throw Exception("Error getting movie headers")
         return gqlToHeaderList(gqlMovieList)
     }
 
     suspend fun getMovieDetail(movieId: Int): MovieDetailModel {
-        val response = ApiClient.getInstance().movieClient.query(GetMovieDetailQuery(id = movieId)).await()
+        val response = apolloClient.query(GetMovieDetailQuery(id = movieId)).await()
         val gqlMovie = response.data?.movie ?: throw Exception("Error getting movie with ID: $movieId")
         return graphQlToDetailModel(gqlMovie)
     }
 
     suspend fun getTopFiveHeaders(): List<MovieHeaderModel>  {
-        val response = ApiClient.getInstance().movieClient.query(GetTopFiveHeadersQuery()).await()
+        val response = apolloClient.query(GetTopFiveHeadersQuery()).await()
         val gqlMovieList = response.data?.movies ?: throw Exception("Error getting top five movie headers")
         return gqlToHeaderList2(gqlMovieList)
     }
 
     suspend fun getGenres(): List<String> {
-        val response = ApiClient.getInstance().movieClient.query(GetGenresQuery()).await()
+        val response = apolloClient.query(GetGenresQuery()).await()
         return response.data?.genres ?: throw Exception("Error getting genres")
     }
 
     suspend fun getMoviesByGenre(genre: String): List<MovieHeaderModel> {
-        val response = ApiClient.getInstance().movieClient.query(GetHeadersByGenreQuery(genre)).await()
+        val response = apolloClient.query(GetHeadersByGenreQuery(genre)).await()
         val gqlMovieList = response.data?.movies ?: throw Exception("Error getting movies by genre")
         return gqlToHeaderList3(gqlMovieList)
     }
