@@ -25,6 +25,9 @@ class DashboardFragmentViewPagerAdapter @Inject constructor(private val genresAd
     lateinit var movieClickListener: (Int) -> Unit
     lateinit var genreClickListener: (String) -> Unit
     lateinit var sortMoviesBy: (SortOptions) -> Unit
+    lateinit var topFiveTryAgainClicked: () -> Unit
+    lateinit var browseAllTryAgainClicked: () -> Unit
+    lateinit var browseGenresTryAgainClicked: () -> Unit
 
     override fun getCount() = 3
 
@@ -41,6 +44,7 @@ class DashboardFragmentViewPagerAdapter @Inject constructor(private val genresAd
                 safeBinding.genreRecycler.layoutManager = LinearLayoutManager(container.context)
                 genresAdapter.genreClickListener = genreClickListener
                 safeBinding.genreRecycler.adapter = genresAdapter
+                safeBinding.tryAgainButton.setOnClickListener { browseGenresTryAgainClicked() }
                 safeBinding.root
             }
             1 -> {
@@ -49,6 +53,7 @@ class DashboardFragmentViewPagerAdapter @Inject constructor(private val genresAd
                 safeBinding.movieListRecycler.layoutManager = LinearLayoutManager(container.context)
                 topFiveMoviesAdapter.movieClickListener = movieClickListener
                 safeBinding.movieListRecycler.adapter = topFiveMoviesAdapter
+                safeBinding.tryAgainButton.setOnClickListener { topFiveTryAgainClicked() }
                 safeBinding.root
             }
             2 -> {
@@ -57,6 +62,7 @@ class DashboardFragmentViewPagerAdapter @Inject constructor(private val genresAd
                 safeBinding.movieListRecycler.layoutManager = LinearLayoutManager(container.context)
                 allMoviesAdapter.movieClickListener = movieClickListener
                 safeBinding.movieListRecycler.adapter = allMoviesAdapter
+                safeBinding.tryAgainButton.setOnClickListener { browseAllTryAgainClicked() }
                 val sortAdapter = ArrayAdapter.createFromResource(container.context, R.array.sort_options, R.layout.item_sort_spinner_option)
                 safeBinding.sortSpinner.adapter = sortAdapter
                 safeBinding.sortSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {

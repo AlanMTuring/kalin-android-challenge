@@ -7,6 +7,7 @@
     <string name="movies_error_text">Sorry, there was an error retrieving movies.</string>
     <string name="genres_error_text">Sorry, there was an error retrieving genres.</string>
     <string name="sort_by">Sort by:</string>
+    <string name="try_again">Try Again</string>
 
     <string-array name="sort_options">
         <item>Title</item>

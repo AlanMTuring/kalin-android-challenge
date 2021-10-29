@@ -38,6 +38,7 @@ class DashboardFragmentModelFactory @Inject constructor() {
         val previousAllMoviesModel = previousModel.allMoviesModel
         return previousModel.copy(allMoviesModel = previousAllMoviesModel.copy(isError = true, isLoading = false))
     }
+    fun updateModelWithAllMoviesLoading(previousModel: DashboardFragmentModel) = previousModel.copy(allMoviesModel = MovieListModel(isLoading = true, isError = false, movieList = listOf()))
 
     fun updateModelWithTopFiveMovies(previousModel: DashboardFragmentModel, movies: List<MovieHeaderModel>): DashboardFragmentModel {
         val previousTopFiveModel = previousModel.topFiveModel
@@ -47,6 +48,7 @@ class DashboardFragmentModelFactory @Inject constructor() {
         val previousTopFiveModel = previousModel.topFiveModel
         return previousModel.copy(topFiveModel = previousTopFiveModel.copy(isError = true, isLoading = false))
     }
+    fun updateModelWithTopFiveLoading(previousModel: DashboardFragmentModel) = previousModel.copy(topFiveModel = MovieListModel(isLoading = true, isError = false, movieList = listOf()))
 
     fun updateModelWithGenres(previousModel: DashboardFragmentModel, genres: List<String>): DashboardFragmentModel {
         val previousGenresModel = previousModel.genresModel
@@ -56,4 +58,6 @@ class DashboardFragmentModelFactory @Inject constructor() {
         val previousGenresModel = previousModel.genresModel
         return previousModel.copy(genresModel = previousGenresModel.copy(isError = true, isLoading = false))
     }
+    fun updateModelWithGenresLoading(previousModel: DashboardFragmentModel) = previousModel.copy(genresModel = GenreListModel(isLoading = true, isError = false, genres = listOf()))
+
 }

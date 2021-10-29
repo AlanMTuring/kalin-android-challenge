@@ -40,6 +40,7 @@ class GenreFragment : Fragment() {
         movieAdapter.movieClickListener = viewModel::onMovieClicked
         binding.movieList.movieListRecycler.adapter = movieAdapter
         binding.movieList.movieListRecycler.layoutManager = LinearLayoutManager(context)
+        binding.movieList.tryAgainButton.setOnClickListener { viewModel.onTryAgainClicked() }
         val sortAdapter = ArrayAdapter.createFromResource(requireContext(), R.array.sort_options, R.layout.item_sort_spinner_option)
         binding.movieList.sortSpinner.adapter = sortAdapter
         binding.movieList.sortSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -61,7 +62,7 @@ class GenreFragment : Fragment() {
         super.onStart()
 
         val genre = arguments?.getString(GENRE_KEY)!!
-        viewModel.loadGenreMovies(genre)
+        viewModel.fetchData(genre)
 
         viewModel.observableModel.observe(this) { model ->
             binding.model = GenreFragmentBindingModel(

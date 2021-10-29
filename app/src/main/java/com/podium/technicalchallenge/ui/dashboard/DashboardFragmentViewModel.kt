@@ -32,6 +32,21 @@ class DashboardFragmentViewModel @Inject constructor(private val modelFactory: D
         }
     }
 
+    fun browseGenresTryAgainClicked() {
+        liveModel.value = modelFactory.updateModelWithGenresLoading(latestModel)
+        getGenres()
+    }
+
+    fun topFiveTryAgainClicked() {
+        liveModel.value = modelFactory.updateModelWithTopFiveLoading(latestModel)
+        getTopFiveMovies()
+    }
+
+    fun browseAllTryAgainClicked() {
+        liveModel.value = modelFactory.updateModelWithAllMoviesLoading(latestModel)
+        getAllMovies()
+    }
+
     private fun getGenres() {
         viewModelScope.launch {
             try {

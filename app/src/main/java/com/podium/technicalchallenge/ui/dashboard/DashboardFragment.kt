@@ -31,6 +31,9 @@ class DashboardFragment : Fragment() {
         viewPagerAdapter.movieClickListener = viewModel::onMovieClicked
         viewPagerAdapter.genreClickListener = viewModel::onGenreClicked
         viewPagerAdapter.sortMoviesBy = viewModel::sortMoviesBy
+        viewPagerAdapter.browseGenresTryAgainClicked = viewModel::browseGenresTryAgainClicked
+        viewPagerAdapter.topFiveTryAgainClicked = viewModel::topFiveTryAgainClicked
+        viewPagerAdapter.browseAllTryAgainClicked = viewModel::browseAllTryAgainClicked
         binding.viewPager.apply {
             adapter = viewPagerAdapter
             offscreenPageLimit = 2

@@ -24,16 +24,25 @@ class GenreFragmentViewModel @Inject constructor(private val modelFactory: Genre
     private val eventPublisher: MutableLiveData<MovieEvent<GenreFragment>> = MutableLiveData()
     val observableEvents: LiveData<MovieEvent<GenreFragment>> = eventPublisher
 
-    fun loadGenreMovies(genre: String) {
+    fun fetchData(genre: String) {
+        liveModel.value = modelFactory.updateModelWithGenre(latestModel, genre)
+        loadGenreMovies(genre)
+    }
+
+    fun onTryAgainClicked() {
+        liveModel.value = modelFactory.updateModelWithLoading(latestModel)
+        loadGenreMovies(latestModel.genreName)
+    }
+
+    private fun loadGenreMovies(genre: String) {
         viewModelScope.launch {
             try {
-                liveModel.value = modelFactory.updateModelWithGenre(latestModel, genre)
                 val movies = withContext(Dispatchers.IO) {
                     Repo.getInstance().getMoviesByGenre(genre).sortedBy { it.title }
                 }
                 liveModel.value = modelFactory.updateModelWithMovieList(latestModel, movies)
             } catch (ex: Exception) {
-                //todo handle exception
+                liveModel.value = modelFactory.updateModelWithError(latestModel)
             }
         }
     }

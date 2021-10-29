@@ -18,4 +18,8 @@ class GenreFragmentModelFactory @Inject constructor() {
         val previousMovieListModel = previousModel.movieListModel
         return previousModel.copy(movieListModel = previousMovieListModel.copy(isError = true, isLoading = false))
     }
+    fun updateModelWithLoading(previousModel: GenreFragmentModel): GenreFragmentModel {
+        val previousMovieListModel = previousModel.movieListModel
+        return previousModel.copy(movieListModel = previousMovieListModel.copy(isLoading = true, isError = false))
+    }
 }
