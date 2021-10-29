@@ -66,9 +66,9 @@ class GenreFragment : Fragment() {
         viewModel.observableModel.observe(this) { model ->
             binding.model = GenreFragmentBindingModel(
                 model.genreName,
-                MovieListBindingModel(model.showSortBy, model.isLoading, model.isError)
+                MovieListBindingModel(true, model.movieListModel.isLoading, model.movieListModel.isError)
             )
-            movieAdapter.update(model.movies) {
+            movieAdapter.update(model.movieListModel.movieList) {
                 binding.movieList.movieListRecycler.scrollToPosition(0)
             }
         }

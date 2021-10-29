@@ -43,14 +43,15 @@ class GenreFragmentViewModel @Inject constructor(private val modelFactory: Genre
     }
 
     fun sortMoviesBy(options: SortOptions) {
+        if (latestModel.movieListModel.isLoading) return
         val safeModel = latestModel
         val sortedList = when (options) {
-            SortOptions.Title -> safeModel.movies.sortedBy { it.title }
-            SortOptions.Popularity -> safeModel.movies.sortedByDescending { it.popularity }
-            SortOptions.ReleaseDate -> safeModel.movies.sortedByDescending { it.releaseDate }
-            SortOptions.Rating -> safeModel.movies.sortedByDescending { it.rating }
-            SortOptions.NumberOfRatings -> safeModel.movies.sortedByDescending { it.numberOfRatings }
-            SortOptions.Duration -> safeModel.movies.sortedByDescending { it.runtime }
+            SortOptions.Title -> safeModel.movieListModel.movieList.sortedBy { it.title }
+            SortOptions.Popularity -> safeModel.movieListModel.movieList.sortedByDescending { it.popularity }
+            SortOptions.ReleaseDate -> safeModel.movieListModel.movieList.sortedByDescending { it.releaseDate }
+            SortOptions.Rating -> safeModel.movieListModel.movieList.sortedByDescending { it.rating }
+            SortOptions.NumberOfRatings -> safeModel.movieListModel.movieList.sortedByDescending { it.numberOfRatings }
+            SortOptions.Duration -> safeModel.movieListModel.movieList.sortedByDescending { it.runtime }
         }
         liveModel.value = modelFactory.updateModelWithMovieList(safeModel, sortedList)
     }
