@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.podium.technicalchallenge.databinding.FragmentDashboardBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -14,7 +14,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class DashboardFragment : Fragment() {
 
-    private val viewModel: DashboardFragmentViewModel by activityViewModels()
+    private val viewModel: DashboardFragmentViewModel by viewModels()
     private lateinit var binding: FragmentDashboardBinding
 
     @Inject

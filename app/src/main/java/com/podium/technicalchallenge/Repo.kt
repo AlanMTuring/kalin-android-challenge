@@ -5,38 +5,36 @@ import com.podium.technicalchallenge.ui.dashboard.MovieHeaderModel
 import com.podium.technicalchallenge.ui.moviedetail.CastMemberModel
 import com.podium.technicalchallenge.ui.moviedetail.DirectorModel
 import com.podium.technicalchallenge.ui.moviedetail.MovieDetailModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.runBlocking
 
 class Repo {
 
-    fun getMovieHeaders(): List<MovieHeaderModel> = runBlocking(Dispatchers.IO) {
+    suspend fun getMovieHeaders(): List<MovieHeaderModel> {
         val response = ApiClient.getInstance().movieClient.query(GetMovieHeadersQuery()).await()
         val gqlMovieList = response.data?.movies ?: throw Exception("Error getting movie headers")
-        return@runBlocking gqlToHeaderList(gqlMovieList)
+        return gqlToHeaderList(gqlMovieList)
     }
 
-    fun getMovieDetail(movieId: Int) = runBlocking(Dispatchers.IO) {
+    suspend fun getMovieDetail(movieId: Int): MovieDetailModel {
         val response = ApiClient.getInstance().movieClient.query(GetMovieDetailQuery(id = movieId)).await()
         val gqlMovie = response.data?.movie ?: throw Exception("Error getting movie with ID: $movieId")
-        return@runBlocking graphQlToDetailModel(gqlMovie)
+        return graphQlToDetailModel(gqlMovie)
     }
 
-    fun getTopFiveHeaders(): List<MovieHeaderModel> = runBlocking(Dispatchers.IO) {
+    suspend fun getTopFiveHeaders(): List<MovieHeaderModel>  {
         val response = ApiClient.getInstance().movieClient.query(GetTopFiveHeadersQuery()).await()
         val gqlMovieList = response.data?.movies ?: throw Exception("Error getting top five movie headers")
-        return@runBlocking gqlToHeaderList2(gqlMovieList)
+        return gqlToHeaderList2(gqlMovieList)
     }
 
-    fun getGenres(): List<String> = runBlocking(Dispatchers.IO) {
+    suspend fun getGenres(): List<String> {
         val response = ApiClient.getInstance().movieClient.query(GetGenresQuery()).await()
-        return@runBlocking response.data?.genres ?: throw Exception("Error getting genres")
+        return response.data?.genres ?: throw Exception("Error getting genres")
     }
 
-    fun getMoviesByGenre(genre: String): List<MovieHeaderModel> = runBlocking(Dispatchers.IO) {
+    suspend fun getMoviesByGenre(genre: String): List<MovieHeaderModel> {
         val response = ApiClient.getInstance().movieClient.query(GetHeadersByGenreQuery(genre)).await()
         val gqlMovieList = response.data?.movies ?: throw Exception("Error getting movies by genre")
-        return@runBlocking gqlToHeaderList3(gqlMovieList)
+        return gqlToHeaderList3(gqlMovieList)
     }
 
     //For sake of time, not looking into refactoring the following three methods into one method that can take all kinds of GraphQL query.movies as a .

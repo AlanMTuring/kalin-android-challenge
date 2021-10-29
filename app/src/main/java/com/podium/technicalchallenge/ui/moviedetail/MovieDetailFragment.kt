@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -21,7 +21,7 @@ class MovieDetailFragment : Fragment() {
         const val MOVIE_ID_KEY = "arg:movieId"
     }
 
-    private val viewModel: MovieDetailFragmentViewModel by activityViewModels()
+    private val viewModel: MovieDetailFragmentViewModel by viewModels()
     private lateinit var binding: FragmentMovieDetailBinding
 
     @Inject
@@ -54,8 +54,10 @@ class MovieDetailFragment : Fragment() {
 
         viewModel.observableModel.observe(this) { model ->
             binding.model = MovieDetailFragmentBindingModel(model.isLoading, model.isError, model.movieDetail, movieHeaderBindingModelFactory)
-            genreChipAdapter.update(model.movieDetail.genres)
-            castAdapter.update(model.movieDetail.cast)
+            if (model.movieDetail != null) {
+                genreChipAdapter.update(model.movieDetail.genres)
+                castAdapter.update(model.movieDetail.cast)
+            }
         }
     }
 
@@ -74,13 +76,13 @@ class MovieDetailFragment : Fragment() {
 
 data class MovieDetailFragmentBindingModel(val isLoading: Boolean,
                                            val isError: Boolean,
-                                           private val movieDetail: MovieDetailModel,
+                                           private val movieDetail: MovieDetailModel?,
                                            private val movieHeaderBindingModelFactory: MovieHeaderBindingModelFactory) {
     val showContent = !isLoading && !isError
-    val movieHeader = movieHeaderBindingModelFactory.create(movieDetail.header)
-    val movieTitle = "${movieHeader.title} (${movieHeader.releaseDate.year})"
-    val movieMetadata = "${movieHeader.formattedReleaseDate} • ${movieHeader.formattedRuntime}"
-    val formattedRating = "Rated ${movieDetail.header.rating}/10 (by ${movieDetail.header.numberOfRatings} users)"
-    val formattedDirector = "Directed by: ${movieDetail.director.name}"
-    val overview = movieDetail.overview
+    val movieHeader = if (movieDetail == null) null else movieHeaderBindingModelFactory.create(movieDetail.header)
+    val movieTitle = if (movieHeader == null) "" else "${movieHeader.title} (${movieHeader.releaseDate.year})"
+    val movieMetadata = if (movieHeader == null) "" else "${movieHeader.formattedReleaseDate} • ${movieHeader.formattedRuntime}"
+    val formattedRating = if (movieDetail == null) "" else "Rated ${movieDetail.header.rating}/10 (by ${movieDetail.header.numberOfRatings} users)"
+    val formattedDirector = if (movieDetail == null) "" else "Directed by: ${movieDetail.director.name}"
+    val overview = movieDetail?.overview ?: ""
 }

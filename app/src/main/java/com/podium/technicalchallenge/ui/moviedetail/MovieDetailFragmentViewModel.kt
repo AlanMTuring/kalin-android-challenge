@@ -3,10 +3,14 @@ package com.podium.technicalchallenge.ui.moviedetail
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.podium.technicalchallenge.Repo
 import com.podium.technicalchallenge.common.MovieEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @HiltViewModel
 class MovieDetailFragmentViewModel @Inject constructor(private val modelFactory: MovieDetailFragmentModelFactory, private val eventFactory: MovieDetailFragmentEventFactory): ViewModel() {
@@ -21,8 +25,16 @@ class MovieDetailFragmentViewModel @Inject constructor(private val modelFactory:
     val observableEvents: LiveData<MovieEvent<MovieDetailFragment>> = eventPublisher
 
     fun loadMovieDetail(movieId: Int) {
-        val detail = Repo.getInstance().getMovieDetail(movieId)
-        liveModel.value = modelFactory.updateModelWithDetail(latestModel, detail)
+        viewModelScope.launch {
+            try {
+                val detail = withContext(Dispatchers.IO) {
+                    Repo.getInstance().getMovieDetail(movieId)
+                }
+                liveModel.value = modelFactory.updateModelWithDetail(latestModel, detail)
+            } catch (ex: Exception) {
+                liveModel.value = modelFactory.updateModelWithError(latestModel)
+            }
+        }
     }
 
     fun onGenreChipClicked(genre: String) {

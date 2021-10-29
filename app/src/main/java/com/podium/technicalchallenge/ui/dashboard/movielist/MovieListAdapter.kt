@@ -15,8 +15,6 @@ class MovieListAdapter @Inject constructor(private val movieHeaderBindingModelFa
     private val asyncDiffer: AsyncListDiffer<MovieHeaderModel> = AsyncListDiffer(this, MovieHeaderModelDiffUtilCallback())
     lateinit var movieClickListener: (Int) -> Unit
 
-    //TODO double check this is the best way to stay at the top of the recycler
-    //TODO if i remove the runnable, dont forget to make browseAllBinding in ViewPager a lateinit again
     fun update(movies: List<MovieHeaderModel>, callback: Runnable? = null) {
         asyncDiffer.submitList(movies, callback)
     }

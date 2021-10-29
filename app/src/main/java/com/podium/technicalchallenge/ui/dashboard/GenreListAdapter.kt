@@ -2,13 +2,15 @@ package com.podium.technicalchallenge.ui.dashboard
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.podium.technicalchallenge.databinding.ItemGenreBinding
 import javax.inject.Inject
 
 class GenreListAdapter @Inject constructor() : RecyclerView.Adapter<GenreListViewHolder>() {
 
-    lateinit var genres: List<String>
+    private val asyncDiffer: AsyncListDiffer<String> = AsyncListDiffer(this, MovieHeaderModelDiffUtilCallback())
     lateinit var genreClickListener: (String) -> Unit
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenreListViewHolder {
@@ -18,22 +20,22 @@ class GenreListAdapter @Inject constructor() : RecyclerView.Adapter<GenreListVie
         binding.seeAllButton.setOnClickListener {
             val adapterPosition = viewHolder.bindingAdapterPosition
             if (adapterPosition != RecyclerView.NO_POSITION) {
-                genreClickListener(genres[adapterPosition])
+                genreClickListener(asyncDiffer.currentList[adapterPosition])
             }
         }
         return viewHolder
     }
 
     override fun onBindViewHolder(holder: GenreListViewHolder, position: Int) {
-        holder.bind(genres[position])
+        holder.bind(asyncDiffer.currentList[position])
     }
 
     override fun getItemCount(): Int {
-        return genres.size
+        return asyncDiffer.currentList.size
     }
 
-    fun update(updatedGenres: List<String>) {
-        genres = updatedGenres
+    fun update(genres: List<String>) {
+        asyncDiffer.submitList(genres)
     }
 }
 
@@ -41,6 +43,17 @@ class GenreListViewHolder(private val binding: ItemGenreBinding) : RecyclerView.
 
     fun bind(genre: String) {
         binding.genre = genre
+    }
+
+}
+
+class MovieHeaderModelDiffUtilCallback : DiffUtil.ItemCallback<String>() {
+    override fun areItemsTheSame(oldItem: String, newItem: String): Boolean {
+        return oldItem == newItem
+    }
+
+    override fun areContentsTheSame(oldItem: String, newItem: String): Boolean {
+        return oldItem == newItem
     }
 
 }

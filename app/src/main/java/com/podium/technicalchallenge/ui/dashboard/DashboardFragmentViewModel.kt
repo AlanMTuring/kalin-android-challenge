@@ -9,7 +9,9 @@ import com.podium.technicalchallenge.common.MovieEvent
 import com.podium.technicalchallenge.ui.genre.SortOptions
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @HiltViewModel
 class DashboardFragmentViewModel @Inject constructor(private val modelFactory: DashboardFragmentModelFactory, private val eventFactory: DashboardFragmentEventFactory) : ViewModel() {
@@ -31,29 +33,41 @@ class DashboardFragmentViewModel @Inject constructor(private val modelFactory: D
     }
 
     private fun getTopFiveMovies() {
-        try {
-            val top5Headers = Repo.getInstance().getTopFiveHeaders()
-            liveModel.value = modelFactory.updateModelWithTopFiveMovies(latestModel, top5Headers)
-        } catch (ex: Exception) {
-            //todo handle errors
+        viewModelScope.launch {
+            try {
+                val top5Headers = withContext(Dispatchers.IO) {
+                    Repo.getInstance().getTopFiveHeaders()
+                }
+                liveModel.value = modelFactory.updateModelWithTopFiveMovies(latestModel, top5Headers)
+            } catch (ex: Exception) {
+                //todo handle errors
+            }
         }
     }
 
     private fun getAllMovies() {
-        try {
-            val headers = Repo.getInstance().getMovieHeaders().sortedBy { it.title }
-            liveModel.value = modelFactory.updateModelWithAllMovies(latestModel, headers)
-        } catch (ex: Exception) {
-            liveModel.value = modelFactory.updateModelWithError(latestModel)
+        viewModelScope.launch {
+            try {
+                val headers = withContext(Dispatchers.IO) {
+                    Repo.getInstance().getMovieHeaders().sortedBy { it.title }
+                }
+                liveModel.value = modelFactory.updateModelWithAllMovies(latestModel, headers)
+            } catch (ex: Exception) {
+                liveModel.value = modelFactory.updateModelWithError(latestModel)
+            }
         }
     }
 
     private fun getGenres() {
-        try {
-            val genres = Repo.getInstance().getGenres().sorted()
-            liveModel.value = modelFactory.updateModelWithGenres(latestModel, genres)
-        } catch (ex: Exception) {
-            //todo handle errors
+        viewModelScope.launch {
+            try {
+                val genres = withContext(Dispatchers.IO) {
+                    Repo.getInstance().getGenres().sorted()
+                }
+                liveModel.value = modelFactory.updateModelWithGenres(latestModel, genres)
+            } catch (ex: Exception) {
+                //todo handle errors
+            }
         }
     }
 
