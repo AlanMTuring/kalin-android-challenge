@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.podium.technicalchallenge.Repo
+import com.podium.technicalchallenge.MovieRepository
 import com.podium.technicalchallenge.common.MovieEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -13,7 +13,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 @HiltViewModel
-class GenreFragmentViewModel @Inject constructor(private val modelFactory: GenreFragmentModelFactory, private val eventFactory: GenreFragmentEventFactory) : ViewModel() {
+class GenreFragmentViewModel @Inject constructor(private val modelFactory: GenreFragmentModelFactory,
+                                                 private val eventFactory: GenreFragmentEventFactory,
+                                                 private val movieRepository: MovieRepository) : ViewModel() {
 
     private val liveModel: MutableLiveData<GenreFragmentModel> = MutableLiveData(modelFactory.createLoadingModel())
     val observableModel: LiveData<GenreFragmentModel> = liveModel
@@ -38,7 +40,7 @@ class GenreFragmentViewModel @Inject constructor(private val modelFactory: Genre
         viewModelScope.launch {
             try {
                 val movies = withContext(Dispatchers.IO) {
-                    Repo.getInstance().getMoviesByGenre(genre).sortedBy { it.title }
+                    movieRepository.getMoviesByGenre(genre).sortedBy { it.title }
                 }
                 liveModel.value = modelFactory.updateModelWithMovieList(latestModel, movies)
             } catch (ex: Exception) {

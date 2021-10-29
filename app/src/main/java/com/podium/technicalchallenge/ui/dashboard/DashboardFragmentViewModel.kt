@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.podium.technicalchallenge.Repo
+import com.podium.technicalchallenge.MovieRepository
 import com.podium.technicalchallenge.common.MovieEvent
 import com.podium.technicalchallenge.ui.genre.SortOptions
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,7 +14,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 @HiltViewModel
-class DashboardFragmentViewModel @Inject constructor(private val modelFactory: DashboardFragmentModelFactory, private val eventFactory: DashboardFragmentEventFactory) : ViewModel() {
+class DashboardFragmentViewModel @Inject constructor(private val modelFactory: DashboardFragmentModelFactory,
+                                                     private val eventFactory: DashboardFragmentEventFactory,
+                                                     private val movieRepository: MovieRepository): ViewModel() {
 
     private val liveModel: MutableLiveData<DashboardFragmentModel> = MutableLiveData(modelFactory.createLoadingModel())
     val observableModel: LiveData<DashboardFragmentModel> = liveModel
@@ -51,7 +53,7 @@ class DashboardFragmentViewModel @Inject constructor(private val modelFactory: D
         viewModelScope.launch {
             try {
                 val genres = withContext(Dispatchers.IO) {
-                    Repo.getInstance().getGenres().sorted()
+                    movieRepository.getGenres().sorted()
                 }
                 liveModel.value = modelFactory.updateModelWithGenres(latestModel, genres)
             } catch (ex: Exception) {
@@ -64,7 +66,7 @@ class DashboardFragmentViewModel @Inject constructor(private val modelFactory: D
         viewModelScope.launch {
             try {
                 val top5Headers = withContext(Dispatchers.IO) {
-                    Repo.getInstance().getTopFiveHeaders()
+                    movieRepository.getTopFiveHeaders()
                 }
                 liveModel.value = modelFactory.updateModelWithTopFiveMovies(latestModel, top5Headers)
             } catch (ex: Exception) {
@@ -77,7 +79,7 @@ class DashboardFragmentViewModel @Inject constructor(private val modelFactory: D
         viewModelScope.launch {
             try {
                 val headers = withContext(Dispatchers.IO) {
-                    Repo.getInstance().getMovieHeaders().sortedBy { it.title }
+                    movieRepository.getMovieHeaders().sortedBy { it.title }
                 }
                 liveModel.value = modelFactory.updateModelWithAllMovies(latestModel, headers)
             } catch (ex: Exception) {

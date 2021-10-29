@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.podium.technicalchallenge.Repo
+import com.podium.technicalchallenge.MovieRepository
 import com.podium.technicalchallenge.common.MovieEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -13,7 +13,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 @HiltViewModel
-class MovieDetailFragmentViewModel @Inject constructor(private val modelFactory: MovieDetailFragmentModelFactory, private val eventFactory: MovieDetailFragmentEventFactory): ViewModel() {
+class MovieDetailFragmentViewModel @Inject constructor(private val modelFactory: MovieDetailFragmentModelFactory,
+                                                       private val eventFactory: MovieDetailFragmentEventFactory,
+                                                       private val movieRepository: MovieRepository) : ViewModel() {
 
     private val liveModel: MutableLiveData<MovieDetailFragmentModel> = MutableLiveData(modelFactory.createLoadingModel())
     val observableModel: LiveData<MovieDetailFragmentModel> = liveModel
@@ -28,7 +30,7 @@ class MovieDetailFragmentViewModel @Inject constructor(private val modelFactory:
         viewModelScope.launch {
             try {
                 val detail = withContext(Dispatchers.IO) {
-                    Repo.getInstance().getMovieDetail(movieId)
+                    movieRepository.getMovieDetail(movieId)
                 }
                 liveModel.value = modelFactory.updateModelWithDetail(latestModel, detail)
             } catch (ex: Exception) {

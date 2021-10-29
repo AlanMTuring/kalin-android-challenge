@@ -5,8 +5,11 @@ import com.podium.technicalchallenge.ui.dashboard.MovieHeaderModel
 import com.podium.technicalchallenge.ui.moviedetail.CastMemberModel
 import com.podium.technicalchallenge.ui.moviedetail.DirectorModel
 import com.podium.technicalchallenge.ui.moviedetail.MovieDetailModel
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class Repo {
+@Singleton
+class MovieRepository @Inject constructor() {
 
     suspend fun getMovieHeaders(): List<MovieHeaderModel> {
         val response = ApiClient.getInstance().movieClient.query(GetMovieHeadersQuery()).await()
@@ -114,11 +117,4 @@ class Repo {
         )
     }
 
-    companion object {
-        private var INSTANCE: Repo? = null
-        fun getInstance() = INSTANCE
-            ?: Repo().also {
-                INSTANCE = it
-            }
-    }
 }
